@@ -50,7 +50,5 @@ Jade - Haml inspried HTML rendering for node.js (http://jade-lang.com/)
 ### Start the server ###
 After installing all the modules your project should be good to go. To start your server enter in:
 
-    $ node server
-
-Your server should now be accessable at http://localhost:3000
+    $ node server && open http://localhost:3000
 
