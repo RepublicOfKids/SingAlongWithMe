@@ -1,0 +1,51 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/0.8.19/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'rdio-node' ]
+2 info using npm@1.2.10
+3 info using node@v0.8.19
+4 verbose read json /Users/ryan/src/node_apps/SingAlongWithMe/package.json
+5 verbose read json /Users/ryan/src/node_apps/SingAlongWithMe/node_modules/express/package.json
+6 verbose read json /Users/ryan/src/node_apps/SingAlongWithMe/node_modules/jade/package.json
+7 verbose read json /Users/ryan/src/node_apps/SingAlongWithMe/node_modules/less-middleware/package.json
+8 verbose from cache /Users/ryan/src/node_apps/SingAlongWithMe/package.json
+9 verbose readDependencies using package.json deps
+10 verbose cache add [ 'rdio-node', null ]
+11 verbose cache add name=undefined spec="rdio-node" args=["rdio-node",null]
+12 verbose parsed url { pathname: 'rdio-node', path: 'rdio-node', href: 'rdio-node' }
+13 silly lockFile 9f82bb7f-rdio-node rdio-node
+14 verbose lock rdio-node /Users/ryan/.npm/9f82bb7f-rdio-node.lock
+15 silly lockFile 9f82bb7f-rdio-node rdio-node
+16 silly lockFile 9f82bb7f-rdio-node rdio-node
+17 verbose addNamed [ 'rdio-node', '' ]
+18 verbose addNamed [ null, '' ]
+19 silly lockFile bd51ba59-rdio-node rdio-node@
+20 verbose lock rdio-node@ /Users/ryan/.npm/bd51ba59-rdio-node.lock
+21 silly addNameRange { name: 'rdio-node', range: '', hasData: false }
+22 verbose url raw rdio-node
+23 verbose url resolving [ 'https://registry.npmjs.org/', './rdio-node' ]
+24 verbose url resolved https://registry.npmjs.org/rdio-node
+25 info trying registry request attempt 1 at 14:03:47
+26 http GET https://registry.npmjs.org/rdio-node
+27 http 404 https://registry.npmjs.org/rdio-node
+28 silly registry.get cb [ 404,
+28 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B)',
+28 silly registry.get     date: 'Sat, 16 Feb 2013 22:01:47 GMT',
+28 silly registry.get     'content-type': 'application/json',
+28 silly registry.get     'content-length': '52',
+28 silly registry.get     'cache-control': 'must-revalidate' } ]
+29 silly lockFile bd51ba59-rdio-node rdio-node@
+30 silly lockFile bd51ba59-rdio-node rdio-node@
+31 error 404 'rdio-node' is not in the npm registry.
+31 error 404 You should bug the author to publish it
+31 error 404
+31 error 404 Note that you can also install from a
+31 error 404 tarball, folder, or http url, or git url.
+32 error System Darwin 12.2.0
+33 error command "/usr/local/Cellar/node/0.8.19/bin/node" "/usr/local/bin/npm" "install" "rdio-node"
+34 error cwd /Users/ryan/src/node_apps/SingAlongWithMe
+35 error node -v v0.8.19
+36 error npm -v 1.2.10
+37 error code E404
+38 verbose exit [ 1, true ]
