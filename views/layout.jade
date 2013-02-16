@@ -1,7 +1,11 @@
 doctype 5
-html
+html(lang="en")
   head
-    title= title
+    title
+      | Sing Along With Me
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
+    script(type="text/javascript", src="/javascripts/vendor/jquery-1.9.0.min.js")
+    script(type="text/javascript", src="/javascripts/vendor/modernizr-2.6.2.min.js")
