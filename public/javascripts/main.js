@@ -5,7 +5,6 @@ var LYRICFIND_SEARCH_KEY = 'asdas';
 ;(function($) {
 
   // Code goes here.
-  alert(search('macklemore'));
 })(window.jQuery);
 
 function search(query) {
