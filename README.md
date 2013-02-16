@@ -53,13 +53,9 @@ In order to run the server we need to install some NPM package dependencies. Thi
 - Jade - Haml inspried HTML rendering for node.js (http://jade-lang.com/)
 
         $ npm install express
-        
         $ npm install matador
-        
-        $ npm install socket.io
-        
+        $ npm install socket.io        
         $ npm install less-middleware
-        
         $ npm install jade-browser
 
 ### Start the server ###
