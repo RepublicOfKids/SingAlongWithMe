@@ -44,21 +44,23 @@ Find a directory where you want to store this code and clone this repo in there.
     $ git clone https://github.com/RepublicOfKids/SingAlongWithMe.git && cd SingAlongWithMe
 
 ### Install NPM Modules ###
-Express.js - Express is a minimal and flexible node.js web application framework, providing a robust set of features for building single and multi-page, and hybrid web applications. (http://expressjs.com)
+In order to run the server we need to install some NPM package dependencies. This will install these packages locally to folder youre currently in. If you want to install them globally add the argument -g to the npm command.
 
-Matador.js - An Obvious MVC Framework for Node.js. This sets up an architecture on top of Express.js for Models, Views and Controllers. (http://obvious.github.com/matador/)
+- Express.js - Express is a minimal and flexible node.js web application framework, providing a robust set of features for building single and multi-page, and hybrid web applications. (http://expressjs.com)
+- Matador.js - An Obvious MVC Framework for Node.js. This sets up an architecture on top of Express.js for Models, Views and Controllers. (http://obvious.github.com/matador/)
+- Socket.IO - Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It's care-free realtime 100% in JavaScript. (http://socket.io)
+- Less.js - Less CSS is a templating language for CSS which adds various object oriented programming paradigms to CSS. (http://lesscss.org)
+- Jade - Haml inspried HTML rendering for node.js (http://jade-lang.com/)
 
-Socket.IO - Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It's care-free realtime 100% in JavaScript. (http://socket.io)
-
-Less.js - Less CSS is a templating language for CSS which adds various object oriented programming paradigms to CSS. (http://lesscss.org)
-
-Jade - Haml inspried HTML rendering for node.js (http://jade-lang.com/)
-
-    $ npm install express
-    $ npm install matador
-    $ npm install socket.io
-    $ npm install less-middleware
-    $ npm install jade-browser
+        $ npm install express
+        
+        $ npm install matador
+        
+        $ npm install socket.io
+        
+        $ npm install less-middleware
+        
+        $ npm install jade-browser
 
 ### Start the server ###
 After installing all the modules your project should be good to go. To start your server enter in:
