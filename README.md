@@ -58,5 +58,5 @@ Thankfully theres only one call you need to make to install all of this.
 ### Start the server ###
 After installing all the modules your project should be good to go. To start your server enter in:
 
-    $ node server && open http://localhost:3000
+    $ node app && open http://localhost:3000
 
