@@ -64,11 +64,11 @@ Thankfully theres only one call you need to make to install all of this.
 ### Initalize Heroku ###
 In order to start your local server and push to production you will want to intialize Heroku.
 
-  $ heroku git:remote -a singalongwithme
+    $ heroku git:remote -a singalongwithme
 
 ### Start the server ###
 After installing all the modules your project should be good to go. Assuming you've installed heroku you can start your server locally with:
 
-  $ foreman start
+    $ foreman start
 
 Your personal sandbox should be located at (http://localhost:5000)
