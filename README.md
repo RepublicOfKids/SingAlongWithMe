@@ -35,6 +35,12 @@ If you don't see the folder which contains where Node.js was installed to open y
 
     $ export PATH=$PATH:/opt/node/bin:/usr/local/share/npm/bin
 
+### Download and Install Heroku ###
+Heroku will be out free deployment system. We are currently alloted 750 hours of "dyno" time per month. Think of a dyno like a process. If you don't currently have Heroku installed on your machine create an account and follow the instructions here to do that (https://toolbelt.heroku.com/). You can test if you have the heroku toolbelt installed by simply typing in heroku into your command line.
+
+  $ heroku
+
+
 Download Code
 -------------
 
@@ -55,8 +61,14 @@ Thankfully theres only one call you need to make to install all of this.
 
     $ npm install
 
+### Initalize Heroku ###
+In order to start your local server and push to production you will want to intialize Heroku.
+
+  $ heroku git:remote -a singalongwithme
+
 ### Start the server ###
-After installing all the modules your project should be good to go. To start your server enter in:
+After installing all the modules your project should be good to go. Assuming you've installed heroku you can start your server locally with:
 
-    $ node app && open http://localhost:3000
+  $ foreman start
 
+Your personal sandbox should be located at (http://localhost:5000)
