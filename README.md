@@ -55,7 +55,7 @@ In order to run the server we need to install some NPM package dependencies. Thi
 - Express.js - Express is a minimal and flexible node.js web application framework, providing a robust set of features for building single and multi-page, and hybrid web applications. (http://expressjs.com)
 - Socket.IO - Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms. It's care-free realtime 100% in JavaScript. (http://socket.io)
 - Less.js - Less CSS is a templating language for CSS which adds various object oriented programming paradigms to CSS. (http://lesscss.org)
-- Jade - Haml inspried HTML rendering for node.js (http://jade-lang.com/)
+- Jade - Haml inspried HTML rendering for node.js. Ideally this should make typing HTML faster and more efficient. (http://jade-lang.com/)
 
 Thankfully theres only one call you need to make to install all of this.
 
