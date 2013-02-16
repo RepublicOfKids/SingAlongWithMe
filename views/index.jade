@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  body
+    h1= title
+    //p Welcome to #{title}
+
+    form(name="input", action="", method="post")
+      #searchBar
+      input(type="text", name="songTitle", id="searchBar", placeholder="enter the song title")
+      #goButton
+      button(type="submit", class="btn btn-primary") Let's go
