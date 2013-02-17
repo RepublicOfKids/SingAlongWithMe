@@ -62,18 +62,18 @@
       for (var i = 0; i < songs.length; i++){
           resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
       }
-      $("#rdioResultsContainer").html(resultsHtml).hide();
-      $("#rdioResultsContainer").show(1200);
+      $("#rdioResultsContainer").html(resultsHtml).removeClass('hidden');
+      //$("#rdioResultsContainer").show(1200);
     };
 
     var computeMoodBg = function() {
       console.log(window.audioSummary);
-      
+
       var speedCoef = 500 + ".";
       var energyCoef1 = 0.2;
       var energyCoef2 = 0.8;
       var loudnessCoef = 0.6;
-      
+
       if (audioSummary) {
         var energy = audioSummary.energy;
         if (energy) {
@@ -95,7 +95,6 @@
       }
       console.log("rave - speed " + speedCoef + "\n loudness " + loudnessCoef +
        "\n energy " + energyCoef1);
-      
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
@@ -132,24 +131,26 @@
 
     var renderLyrics = function() {
       if(lrcDataPoints.lyrics.length === 1 && lrcDataPoints.times.length === 0) {
-	  $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
-	  return;
-	  
-      } else {	
-	  var lyricTemplate = $('#lyricTemplate').html();
-	  window.timeoutsArray = [];
-	  hideSearchContainer();
-	  
-	  for (var i = 0; i < lrcDataPoints.times.length; i++) {
-	      $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
-			  lyric     : lrcDataPoints.lyrics[i],
-			      timestamp : lrcDataPoints.times[i],
-			      i         : i
-			      }));
-	      setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
-	  }	
-	  // TODO: Render webcams when we get io sockets working
-	  //renderTokbox();
+	      $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
+	      return;
+	    } else {
+        var lyricTemplate = $('#lyricTemplate').html(),
+            lyricsContainer = $('#lyricsContainer');
+        window.timeoutsArray = [];
+
+        hideSearchContainer();
+
+        for (var i = 0; i < lrcDataPoints.times.length; i++) {
+          lyricsContainer.append(Hogan.compile(lyricTemplate).render({
+            lyric     : lrcDataPoints.lyrics[i],
+            timestamp : lrcDataPoints.times[i],
+            i         : i
+          }));
+          setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray, i);
+        }
+
+        lyricsContainer.removeClass('hidden');
+        //renderTokbox();
       }
     };
 
@@ -161,10 +162,11 @@
       session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
-    var setTimeoutEvents = function(delay, timeoutsArray) {
+    var setTimeoutEvents = function(delay, timeoutsArray, i) {
       timeoutsArray.push(window.setTimeout(function() {
         $('.highlight-lyric').removeClass('highlight-lyric');
         $("#lyricsContainer").find("[data-time='" + delay + "']").addClass('highlight-lyric');
+        $('#lyricsContainer').scrollTop(36 * i);
       }, delay));
     };
 
@@ -196,6 +198,8 @@
     });
 
     $.subscribe('show_lyrics', renderLyrics);
+
+    $('#searchInput').focus();
   });
 })(window.jQuery);
 
