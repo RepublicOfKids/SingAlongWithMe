@@ -34,7 +34,6 @@
       for (var i = 0; i < songs.length; i++){
           resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
       }
-
       $("#rdioResultsContainer").html(resultsHtml).hide();
       $("#rdioResultsContainer").show(1200);
     };
