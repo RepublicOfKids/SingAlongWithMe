@@ -1,13 +1,13 @@
-var Rdio = {};
-
 ;(function($) {
+  "use strict";
+  var Rdio = {};
 
   R.ready(function() {
     Rdio = new RdioHelper();
 
     var searchForSong = function() {
       var query = $("#searchInput").val();
-      musixmatchGetTrackId(query, 10, Rdio.search.bind(this, query, renderSuggestions));
+      musixmatchGetTrackId(query, 50, Rdio.search.bind(this, query, renderSuggestions));
     };
 
     var filterArray = function(a, b) {
@@ -32,10 +32,15 @@ var Rdio = {};
         return;
       }
       for (var i = 0; i < songs.length; i++){
-        resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
-      }
-      $("#rdioResultsContainer").html(resultsHtml);
+        if (i % 2 === 0) {
+          resultsHtml = resultsHtml + '<li class="list-search-result, even-item" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
+        } else {
+          resultsHtml = resultsHtml + '<li class="list-search-result, odd-item" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
+        }
+        }
 
+      $("#rdioResultsContainer").html(resultsHtml).hide();
+      $("#rdioResultsContainer").show(1200);
     };
 
     var computeMoodBg = function() {
@@ -53,7 +58,24 @@ var Rdio = {};
         }
       }).start();
     };
-    
+
+    var hideSearchContainer = function() {
+      $('#searchContainer').addClass('hidden');
+    };
+
+    var renderLyrics = function() {
+      var lyricTemplate = $('#lyricTemplate').html();
+
+      hideSearchContainer();
+
+      for (var i = 0; i < lrcDataPoints.times.length; i++) {
+        $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
+          lyric     : lrcDataPoints.lyrics[i],
+          timestamp : lrcDataPoints.times[i]
+        }));
+      }
+    };
+
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
 
@@ -70,6 +92,7 @@ var Rdio = {};
       musixmatchGetLrcSubtitle(window.trackId, parseLrcData);
       echonestGetAudioSummary(window.trackId, computeMoodBg);
       Rdio.play(window.playBackKey);
+      $('#rdioPlayer').removeClass('hidden');
     });
 
     $('#rdioPlay').on('click', function() {
@@ -79,6 +102,8 @@ var Rdio = {};
     $('#rdioPause').on('click', function(event) {
       Rdio.pause();
     });
+
+    $.subscribe('show_lyrics', renderLyrics);
   });
 })(window.jQuery);
 

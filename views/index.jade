@@ -1,19 +1,25 @@
 extends layout
 
 block content
-  body
     h1= title
 
-    input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
-    button#goButton(type="submit", class="btn btn-primary") Let's go
+    #searchContainer
+      input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
+      button#goButton(type="submit", class="btn btn-primary") Let's go
+      #rdioResultsContainer
 
-    #rdioResultsContainer
+    #lyricsContainer
 
     canvas#viewport(width='400', height='300')  
 
     #api.rdio-playback-container
 
-    #rdioPlayer
-      button#rdioPlay.btn.btn-primary Play
-      button#rdioPause.btn.btn-primary Pause
-      
+    #rdioPlayer.hidden
+      button#rdioPlay.btn.btn-primary
+        i.icon-white.icon-play
+      button#rdioPause.btn.btn-primary
+        i.icon-white.icon-pause
+
+    script(id="lyricTemplate", type="text/x-mustache-template")
+      .lyric-row(data-time='{{{timestamp}}}')
+        | {{lyric}}

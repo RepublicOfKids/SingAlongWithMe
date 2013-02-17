@@ -3,7 +3,7 @@
  *****************/
 
 var MUSIXMATCH_SEARCH_KEY = '82be3ea3f79ea404d45f47607c103eff';
-var ECHONEST_API_KEY = 'DXSCDJZB0VMRMKUTG';
+var ECHONEST_API_KEY      = 'DXSCDJZB0VMRMKUTG';
 
 /*****************
  Objects
@@ -11,8 +11,8 @@ var ECHONEST_API_KEY = 'DXSCDJZB0VMRMKUTG';
 
 function lrcData(times,lyrics)
 {
-    this.times = times
-    this.lyrics     = lyrics
+    this.times  = times
+    this.lyrics = lyrics
 }
 
 /*****************
@@ -97,18 +97,21 @@ function parseLrcData(json) {
     var lyrics       = [];
 
     for (var i=0; i < subtitles.length; i++) {
-	var re       = /\[(\d+):(\d+).(\d+)\](.*)/i
-	var matches  = subtitles[i].match(re);
-	var mins     = parseInt(matches[1].trim())*60*1000;  
-	var secs     = parseInt(matches[2].trim())*1000;
-	var millis   = parseInt(matches[3].trim());
-	var timeInMs = mins+secs+millis;
-	var lyric    = matches[4].trim();  
-	times.push(timeInMs);
-	lyrics.push(lyric);
+      var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
+      var matches  = subtitles[i].match(re);
+      var mins     = parseInt(matches[1].trim())*60*1000;
+      var secs     = parseInt(matches[2].trim())*1000;
+      var millis   = parseInt(matches[3].trim());
+      var timeInMs = mins+secs+millis;
+      var lyric    = matches[4].trim();
+      if (lyric.length==0) { lyric = "♫♫♫" };
+      if (times.length==0 && timeInMs!=0) { times.push("0"); times.push("♫♫♫"); }
+      times.push(timeInMs);
+      lyrics.push(lyric);
     }
 
-    return new lrcData(times, lyrics);    
+    window.lrcDataPoints = new lrcData(times, lyrics);
+    $.publish('show_lyrics');
 };
 
 
@@ -135,5 +138,4 @@ function echonestGetAudioSummary(trackId, fn) {
           fn();
         }
       });
-
 }
