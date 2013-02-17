@@ -6,38 +6,47 @@ var MUSIXMATCH_SEARCH_KEY = '82be3ea3f79ea404d45f47607c103eff';
 
   URL: http://en.wikipedia.org/wiki/LRC_(file_format)
  */
-function musixmatchGetLrcSubtitle(trackId) {
+function musixmatchGetLrcSubtitle(trackId, fn) {
     var params = {
-	track_id        : trackId
-	formatDecide    : 'json',
+	track_id        : trackId,
+	format          : 'jsonp',
 	subtitle_format : 'lrc'
     };
-    
-    $.getJSON('http://api.musixmatch.com/ws/1.1/track.search?', params,
-	      function(data) {
-		  var trackId = data['message']['body']['track_list']['track']['track_id'][0].message;
-		  alert(trackId);
-	      });
-    
+
+    $.ajax({
+	    type       : "POST",
+	    dataType   : "jsonp",
+	    url        : "http://api.musixmatch.com/ws/1.1/track.subtitle.get",
+	    data       : params,
+	  }).done(
+	    function(json){
+		fn(json);
+	    }
+	 );
 }
 
 /*
-  Return track_id corresponding to search query.
+  Perform a callback function on track_id corresponding to search query (if found).
  */
-function musixmatchGetTrackId(query) {
+function musixmatchGetTrackId(query, numResults, fn) {
     var params = {
 	q              : query,
 	f_has_lyrics   : 1,
 	f_has_subtitle : 1,
 	apikey         : MUSIXMATCH_SEARCH_KEY,
-	page_size      : 1,
-	format         : 'json'
-    };
-
-    $.getJSON('http://api.musixmatch.com/ws/1.1/track.search?', params,
-	      function(data) {
-		  var trackId = data['message']['body']['track_list']['track']['track_id'][0].message;
-		  alert(trackId);
-	      });
-
+	page_size      : numResults,
+	format         : 'jsonp'
+	};
+    
+    $.ajax({
+	    type       : "POST",
+	    dataType   : "jsonp",
+	    url        : "http://api.musixmatch.com/ws/1.1/track.search",
+	    data       : params,
+	  }).done(
+	    function(json){
+		fn(json);
+	    }
+	 );
 }
+
