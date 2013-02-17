@@ -1,4 +1,22 @@
+/*****************
+ Constants
+ *****************/
+
 var MUSIXMATCH_SEARCH_KEY = '82be3ea3f79ea404d45f47607c103eff';
+
+/*****************
+ Objects
+ *****************/
+
+function lrcData(times,lyrics)
+{
+    this.times = times
+    this.lyrics     = lyrics
+}
+
+/*****************
+ Functions
+ *****************/
 
 /*
   Return the subtitle of a track given the musixmatch track id.
@@ -65,3 +83,31 @@ function musixmatchGetTrackId(query, numResults, fn) {
       }
    );
 }
+
+/*
+  Returns two ordered arrays of timestamp data with their corresponding
+  lines of lyrics in another array.
+ */
+function parseLrcData(json) {
+    // Assumes subtitleBody contains newlines
+    var subtitleBody = json.message.body.subtitle.subtitle_body;
+    var subtitles    = subtitleBody.split("\n");
+    var times        = [];
+    var lyrics       = [];
+
+    for (var i=0; i < subtitles.length; i++) {
+	var re       = /\[(\d+):(\d+).(\d+)\](.*)/i
+	var matches  = subtitles[i].match(re);
+	var mins     = parseInt(matches[1].trim())*60*1000;  
+	var secs     = parseInt(matches[2].trim())*1000;
+	var millis   = parseInt(matches[3].trim());
+	var timeInMs = mins+secs+millis;
+	var lyric    = matches[4].trim();  
+	times.push(timeInMs);
+	lyrics.push(lyric);
+    }
+
+    return new lrcData(times, lyrics);    
+};
+
+
