@@ -1,24 +1,6 @@
 ;(function($) {
   "use strict";
-  var Rdio   = {};
-  var socket = io.connect('http://localhost:5000');
-
-  // on connection to server, ask for user's name with an anonymous callback
-  socket.on('connect', function(){
-	  // call the server-side function 'adduser' and send one parameter (value of prompt)
-	  socket.emit('adduser', Math.random().toString(36).substring(7));
-      });
-
-  // listener, whenever the server emits 'updatechat', this updates the chat body
-  socket.on('updateroom', function (username, data) {
-	  $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-      });
-
-  // listener, whenever the server emits 'updateusers', this updates the username list
-  socket.on('updateusers', function(data) {
-	  $('#users').empty();
-	  $('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
-      });
+  var Rdio = {};
 
   R.ready(function() {
     Rdio = new RdioHelper();
