@@ -69,9 +69,9 @@
     var computeMoodBg = function() {
       console.log(window.audioSummary);
 
-      var speedCoef = 500 + ".";
-      var energyCoef1 = 0.2;
-      var energyCoef2 = 0.8;
+      var speedCoef = 800 + ".";
+      var energyCoef1 = 0.5;
+      var energyCoef2 = 0.5;
       var loudnessCoef = 0.6;
 
       if (audioSummary) {
