@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-process.env.PORT = process.env.PORT | 3000;
+process.env.PORT = process.env.PORT || 3000;
 
 var express = require('express'),
     routes  = require('./routes'),
@@ -39,8 +39,8 @@ app.get('/', routes.index);
 // usernames which are currently connected to the root
 var usernames = {};
 io.configure(function () {
-	io.set("transports", ["xhr-polling"]); 
-	io.set("polling duration", 10); 
+	io.set("transports", ["xhr-polling"]);
+	io.set("polling duration", 10);
 });
 io.sockets.on('connection', function (socket) {
 	// when the client emits 'adduser', this listens and executes
@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
 		// update the list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 	    });
-	
+
 	// when the user disconnects.. perform this
 	socket.on('disconnect', function(){
 		// remove the username from global usernames list
