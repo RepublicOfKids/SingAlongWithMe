@@ -57,6 +57,7 @@ var Rdio = {};
       window.trackId = $searchResult.data('track-id');
       musixmatchGetLrcSubtitle(window.trackId, parseLRCData);
       Rdio.play(window.playBackKey);
+      $('#rdioPlayer').removeClass('hidden');
     });
 
     $('#rdioPlay').on('click', function() {
