@@ -22,4 +22,9 @@ html(lang="en")
     script(type="text/javascript", src="/javascripts/plugins.js")
     script(type="text/javascript", src="/javascripts/RdioHelper.js")
     script(type="text/javascript", src="/javascripts/musixmatch.js")
+<<<<<<< Updated upstream
     script(type="text/javascript", src="/javascripts/main.js")
+=======
+    script(type="text/javascript", src="/javascripts/main.js")
+
+>>>>>>> Stashed changes

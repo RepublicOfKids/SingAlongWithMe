@@ -82,6 +82,16 @@
         }));
         setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
       }
+
+      renderTokbox();
+    };
+
+    var renderTokbox = function() {
+	TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+	var session = TB.initSession(sessionId);
+	session.addEventListener('sessionConnected', sessionConnectedHandler);
+	session.addEventListener('streamCreated', streamCreatedHandler);
+	session.connect(apiKey, token);
     };
 
     var setTimeoutEvents = function(delay, timeoutsArray) {
