@@ -65,6 +65,17 @@
 
     var computeMoodBg = function() {
       console.log(window.audioSummary);
+      
+      if (audioSummary) {
+        var energy = audioSummary.energy;
+        var loudness = audioSummary.loudness;
+        var tempo = audioSummary.tempo;
+        var danceability = audioSummary.danceability;
+        if (danceability && danceability > 0.75) {
+          $("#psyContainer").show();
+        }
+      }
+      
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
@@ -76,7 +87,7 @@
             "uniform vec2 resolution;\n" +
             "void main (void) {\n" +
             "vec2 p = ( gl_FragCoord.xy / resolution.xy );\n" +
-            "gl_FragColor = vec4(p.x, p.y, (1.+cos(p.x+time/1000.))/2., 1.0);\n" +
+            "gl_FragColor = vec4(p.x, p.y, (1.+cos(p.x+time/500.))/2., 0.6);\n" +
             "}",
         variables: {
           time: 0 // The time in ms
