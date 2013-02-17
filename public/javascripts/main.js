@@ -57,6 +57,7 @@ var Rdio = {};
       window.trackId = $searchResult.data('track-id');
       musixmatchGetLrcSubtitle(window.trackId, parseLRCData);
       Rdio.play(window.playBackKey);
+      echonestGetAudioSummary(window.trackId);
     });
 
     $('#rdioPlay').on('click', function() {
@@ -67,8 +68,6 @@ var Rdio = {};
       Rdio.pause();
     });
   });
-
-  echonestGetAudioSummary(8519786);
 })(window.jQuery);
 
 
