@@ -9,7 +9,8 @@
         method: "search",
         content: {
           types: "Track",
-          query: query
+          query: query,
+          count: 50
         },
         success: function(response) {
           if (response.status === 'ok') {
