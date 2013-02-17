@@ -42,6 +42,10 @@ var Rdio = {};
 
     };
 
+    var computeMoodBg = function() {
+      console.log(window.audioSummary);
+    };
+    
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
 
@@ -56,8 +60,8 @@ var Rdio = {};
       window.playBackKey = $searchResult.data('key');
       window.trackId = $searchResult.data('track-id');
       musixmatchGetLrcSubtitle(window.trackId, parseLRCData);
+      echonestGetAudioSummary(window.trackId, computeMoodBg);
       Rdio.play(window.playBackKey);
-      echonestGetAudioSummary(window.trackId);
     });
 
     $('#rdioPlay').on('click', function() {

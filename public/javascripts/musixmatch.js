@@ -70,7 +70,7 @@ function musixmatchGetTrackId(query, numResults, fn) {
 /*
   Get song qualities from echonest
 */
-function echonestGetAudioSummary(trackId) {
+function echonestGetAudioSummary(trackId, fn) {
   var params = {
     api_key: ECHONEST_API_KEY,
     format: "json",
@@ -81,7 +81,14 @@ function echonestGetAudioSummary(trackId) {
   
   $.getJSON('http://developer.echonest.com/api/v4/song/profile?', params,
       function(data) {
-	      console.log(data);
+        if (data.response.songs) {
+          window.audioSummary = data.response.songs[0].audio_summary;
+        } else {
+          window.audioSummary = null;
+        }
+        if (typeof fn === 'function') {
+          fn();
+        }
       });
 
 }
