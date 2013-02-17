@@ -99,7 +99,7 @@ function parseLrcData(json) {
     var lyrics       = [];
 
 
-    if (typeof subtitleBody === 'undefined') {
+    if (typeof subtitleBody === 'undefined' || !subtitleBody.length) {
       lyrics.push("Unfortunately we're not authorized to show these lyrics.");
     } else {
       for (var i=0; i < subtitles.length; i++) {
