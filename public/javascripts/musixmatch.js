@@ -105,6 +105,7 @@ function parseLrcData(json) {
       var timeInMs = mins+secs+millis;
       var lyric    = matches[4].trim();
       if (lyric.length==0) { lyric = "♫♫♫" };
+      if (times.length==0 && timeInMs!=0) { times.push("0"); times.push("♫♫♫"); }
       times.push(timeInMs);
       lyrics.push(lyric);
     }
