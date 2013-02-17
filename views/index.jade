@@ -1,13 +1,14 @@
 extends layout
 
 block content
-  body
     h1= title
 
-    input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
-    button#goButton(type="submit", class="btn btn-primary") Let's go
+    #searchContainer
+      input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
+      button#goButton(type="submit", class="btn btn-primary") Let's go
+      #rdioResultsContainer
 
-    #rdioResultsContainer
+    #lyricsContainer
 
     #api.rdio-playback-container
 
@@ -16,4 +17,9 @@ block content
         i.icon-white.icon-play
       button#rdioPause.btn.btn-primary
         i.icon-white.icon-pause
+
+    script(id="lyricTemplate", type="text/x-mustache-template")
+      .lyric-row(data-time='{{{timestamp}}}')
+        | {{lyric}}
+
 

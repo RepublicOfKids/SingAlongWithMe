@@ -1,6 +1,6 @@
-var Rdio = {};
-
 ;(function($) {
+  "use strict";
+  var Rdio = {};
 
   R.ready(function() {
     Rdio = new RdioHelper();
@@ -41,7 +41,24 @@ var Rdio = {};
     var computeMoodBg = function() {
       console.log(window.audioSummary);
     };
-    
+
+    var hideSearchContainer = function() {
+      $('#searchContainer').addClass('hidden');
+    };
+
+    var renderLyrics = function() {
+      var lyricTemplate = $('#lyricTemplate').html();
+
+      hideSearchContainer();
+
+      for (var i = 0; i < lrcDataPoints.times.length; i++) {
+        $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
+          lyric     : lrcDataPoints.lyrics[i],
+          timestamp : lrcDataPoints.times[i]
+        }));
+      }
+    };
+
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
 
@@ -68,6 +85,8 @@ var Rdio = {};
     $('#rdioPause').on('click', function(event) {
       Rdio.pause();
     });
+
+    $.subscribe('show_lyrics', renderLyrics);
   });
 })(window.jQuery);
 
