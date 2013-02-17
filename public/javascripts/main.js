@@ -71,13 +71,13 @@
     };
 
     var hideSearchContainer = function() {
+      $('h1').addClass('hidden');
       $('#searchContainer').addClass('hidden');
     };
 
     var renderLyrics = function() {
       var lyricTemplate = $('#lyricTemplate').html();
       window.timeoutsArray = [];
-
 
       hideSearchContainer();
 
@@ -89,6 +89,16 @@
         }));
         setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
       }
+
+      renderTokbox();
+    };
+
+    var renderTokbox = function() {
+	TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+	window.session = TB.initSession(TOKBOX_SESSION_ID);
+	session.addEventListener('sessionConnected', sessionConnectedHandler);
+	session.addEventListener('streamCreated', streamCreatedHandler);
+	session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
     var setTimeoutEvents = function(delay, timeoutsArray) {
