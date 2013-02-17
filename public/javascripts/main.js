@@ -56,7 +56,7 @@
       var songs = filterArray(window.rdioData, window.musixmatchData),
           resultsHtml = '';
       if(songs.length === 0) {
-        $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>');
+        $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>').removeClass('hidden');
         return;
       }
       for (var i = 0; i < songs.length; i++){
