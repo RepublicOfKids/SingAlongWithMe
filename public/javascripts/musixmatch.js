@@ -99,6 +99,8 @@ function parseLrcData(json) {
     var lyrics       = [];
 
     if (typeof subtitleBody === 'undefined') {
+	lyrics.push("Unfortunately we're not authorized to show these lyrics.");
+    } else {
 	for (var i=0; i < subtitles.length; i++) {
 	    var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
 	    var matches  = subtitles[i].match(re);
@@ -112,8 +114,6 @@ function parseLrcData(json) {
 	    times.push(timeInMs);
 	    lyrics.push(lyric);
 	}
-    } else {
-	lyrics.push("Unfortunately we're not authorized to show these lyrics.")
     }
 
     window.lrcDataPoints = new lrcData(times, lyrics);
