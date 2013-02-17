@@ -1,6 +1,26 @@
 ;(function($) {
   "use strict";
-  var Rdio = {};
+  var Rdio   = {};
+  var socket = io.connect(window.location.href);
+  // TODO: When developing uncomment this
+  // var socket = io.connect('http://localhost:5000');
+
+  // on connection to server, ask for user's name with an anonymous callback
+  socket.on('connect', function(){
+	  // call the server-side function 'adduser' and send one parameter (value of prompt)
+	  socket.emit('adduser', Math.random().toString(36).substring(7));
+      });
+
+  // listener, whenever the server emits 'updatechat', this updates the chat body
+  socket.on('updateroom', function (username, data) {
+	  $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+      });
+
+  // listener, whenever the server emits 'updateusers', this updates the username list
+  socket.on('updateusers', function(data) {
+	  $('#users').empty();
+	  $('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
+      });
 
   R.ready(function() {
     Rdio = new RdioHelper();
@@ -40,12 +60,11 @@
 
     var computeMoodBg = function() {
       console.log(window.audioSummary);
-
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
-        fragment: 
-            "#ifdef GL_ES\n" + 
+        fragment:
+            "#ifdef GL_ES\n" +
             "precision mediump float;\n" +
             "#endif\n" +
             "uniform float time;\n" +
@@ -87,11 +106,11 @@
     };
 
     var renderTokbox = function() {
-	TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
-	window.session = TB.initSession(TOKBOX_SESSION_ID);
-	session.addEventListener('sessionConnected', sessionConnectedHandler);
-	session.addEventListener('streamCreated', streamCreatedHandler);
-	session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
+      TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+      window.session = TB.initSession(TOKBOX_SESSION_ID);
+      session.addEventListener('sessionConnected', sessionConnectedHandler);
+      session.addEventListener('streamCreated', streamCreatedHandler);
+      session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
     var setTimeoutEvents = function(delay, timeoutsArray) {

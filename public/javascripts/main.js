@@ -3,12 +3,14 @@
   var Rdio   = {};
   var socket = io.connect(window.location.href);
   // TODO: When developing uncomment this
+
+  //var username = Math.random().toString(36).substring(7);
   // var socket = io.connect('http://localhost:5000');
 
   // on connection to server, ask for user's name with an anonymous callback
   socket.on('connect', function(){
 	  // call the server-side function 'adduser' and send one parameter (value of prompt)
-	  socket.emit('adduser', Math.random().toString(36).substring(7));
+	  socket.emit('adduser', prompt("Who are you?"));
       });
 
   // listener, whenever the server emits 'updatechat', this updates the chat body
@@ -19,7 +21,10 @@
   // listener, whenever the server emits 'updateusers', this updates the username list
   socket.on('updateusers', function(data) {
 	  $('#users').empty();
-	  $('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
+	  $.each(data, function(key, value) {
+		  $('#users').append('<div>' + key + '</div>');
+	      });
+	  //$('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
       });
 
   R.ready(function() {
