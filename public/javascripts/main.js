@@ -66,15 +66,29 @@
     var computeMoodBg = function() {
       console.log(window.audioSummary);
       
+      var speedCoef = 500 + ".";
+      var energyCoef;
+      var loudnessCoef = 0.6;
+      
       if (audioSummary) {
         var energy = audioSummary.energy;
+        if (energy) {
+          
+        }
         var loudness = audioSummary.loudness;
+        if (loudness) {
+          loudnessCoef = mapNumberRanges(-16, -2, 0, 1, loudness);
+        }
         var tempo = audioSummary.tempo;
+        if (tempo) {
+          speedCoef = mapNumberRanges(70, 160, 1000, 50, tempo);
+        }
         var danceability = audioSummary.danceability;
-        if (danceability && danceability > 0.75) {
+        if (danceability && danceability > 0.8) {
           $("#psyContainer").show();
         }
       }
+      console.log("rave - speed " + speedCoef + "\n loudness " + loudnessCoef);
       
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
@@ -87,7 +101,8 @@
             "uniform vec2 resolution;\n" +
             "void main (void) {\n" +
             "vec2 p = ( gl_FragCoord.xy / resolution.xy );\n" +
-            "gl_FragColor = vec4(p.x, p.y, (1.+cos(p.x+time/500.))/2., 0.6);\n" +
+            "gl_FragColor = vec4(p.x, p.y, (1.+cos(time/"+ speedCoef +
+            "))/2.," + loudnessCoef + ");\n" +
             "}",
         variables: {
           time: 0 // The time in ms
@@ -97,6 +112,10 @@
         }
       }).start();
     };
+
+    var mapNumberRanges  = function(min1, max1, min2, max2, input) {
+      return ((input - min1) / (max1 - min1)) * (max2 - min2) + min2;
+    }
 
     var hideSearchContainer = function() {
       $('h1').addClass('hidden');

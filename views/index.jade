@@ -2,6 +2,7 @@ extends layout
 
 block content
     h1= title
+    canvas#viewport
 
     #searchContainer
       input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
@@ -10,8 +11,6 @@ block content
 
     #lyricsContainer
     #myPublisherDiv
-
-    canvas#viewport
     
     img#psyContainer(src="/images/little-psy.gif")
     
