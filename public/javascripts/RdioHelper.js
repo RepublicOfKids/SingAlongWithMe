@@ -14,7 +14,7 @@
         },
         success: function(response) {
           if (response.status === 'ok') {
-            window.searchResults = response.results;
+            window.searchResults = response.result;
             if (typeof callback === 'function') {
               return callback.call(this, response);
             }
@@ -24,6 +24,14 @@
           console.log("error");
         }
       });
+    },
+
+    play: function(key) {
+      R.player.play({source: key});
+    },
+
+    pause: function() {
+      R.player.pause();
     }
 
   }
