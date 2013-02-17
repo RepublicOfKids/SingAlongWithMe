@@ -10,7 +10,7 @@ var LYRICFIND_DISPLAY_KEY = 'asdad',
 
     $("#goButton").on("click", function () {
       var query = $("#searchInput").val();
-      Rdio.search(query, renderRdioResults());
+      Rdio.search(query, renderRdioResults);
     });
   });
 
@@ -33,7 +33,19 @@ function search(query) {
 }
 
 function renderRdioResults() {
-  window.console.log(window.searchResults);
+  var songs = window.searchResults.results;
+  if(songs.length === 0) {
+    $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>')
+    return;
+  }
+  
+  var resultsHtml = '';
+  for (var i = 0; i < songs.length; i++){
+    resultsHtml = resultsHtml + '<li>Song Title: ' + songs[i].name + ', Album Name: ' + songs[i].album + '</li>';
+  }
+
+  $("#rdioResultsContainer").html(resultsHtml);
+
 }
 
 
