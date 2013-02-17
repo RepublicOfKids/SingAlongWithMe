@@ -88,10 +88,10 @@
 
     var renderTokbox = function() {
 	TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
-	var session = TB.initSession(sessionId);
+	window.session = TB.initSession(TOKBOX_SESSION_ID);
 	session.addEventListener('sessionConnected', sessionConnectedHandler);
 	session.addEventListener('streamCreated', streamCreatedHandler);
-	session.connect(apiKey, token);
+	session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
     var setTimeoutEvents = function(delay, timeoutsArray) {
