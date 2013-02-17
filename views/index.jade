@@ -3,13 +3,10 @@ extends layout
 block content
   body
     h1= title
-    p Welcome to #{title}
-
-    form(name="input", action="", method="post")
-      #searchBar
-      input(type="text", name="songTitle", id="searchBar", placeholder="enter the song title")
-      #goButton
-      button(type="submit", class="btn btn-primary") Let's go
+    
+    #searchBar
+      input#searchInput(type="text", name="songTitle", placeholder="enter the song title")
+      button#goButton(type="submit", class="btn btn-primary") Let's go
 
     #api.rdio-playback-container
 

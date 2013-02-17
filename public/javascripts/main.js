@@ -7,6 +7,11 @@ var LYRICFIND_DISPLAY_KEY = 'asdad',
 
   R.ready(function() {
     Rdio = new RdioHelper();
+
+    $("#goButton").on("click", function () {
+      var query = $("#searchInput").val();
+      Rdio.search(query);
+    });
   });
 
 })(window.jQuery);
@@ -26,3 +31,9 @@ function search(query) {
 
   // ajax search url and get trackid
 }
+
+function renderRdioResults(results) {
+  
+}
+
+
