@@ -1,4 +1,3 @@
-
 ;(function($) {
 
   RdioHelper = function() {};
@@ -32,8 +31,12 @@
 
     pause: function() {
       R.player.pause();
+    },
+
+    togglePause : function() {
+      R.player.togglePause();
     }
 
-  }
+  };
 
 })(window.jQuery);

@@ -6,12 +6,28 @@ var LYRICFIND_DISPLAY_KEY = 'asdad',
 ;(function($) {
 
   R.ready(function() {
+    Rdio = new RdioHelper();
+
     $("#goButton").on("click", searchRdio);
 
     $("#searchInput").keypress(function(e) {
       if(e.which == 13) {
           searchRdio();
       }
+    });
+
+    $('body').on('click', '.list-search-result', function(event) {
+      var $searchResult = $(event.target);
+      window.playBackKey = $searchResult.data('key');
+      Rdio.play(window.playBackKey);
+    });
+
+    $('#rdioPlay').on('click', function() {
+      Rdio.togglePause();
+    });
+
+    $('#rdioPause').on('click', function(event) {
+      Rdio.pause();
     });
   });
 
@@ -34,23 +50,21 @@ function search(query) {
 }
 
 function searchRdio() {
-  Rdio = new RdioHelper();
   var query = $("#searchInput").val();
   Rdio.search(query, renderRdioResults);
 }
 
 function renderRdioResults() {
-  var songs = window.searchResults.results;
+  var songs = window.searchResults.results,
+      resultsHtml = '';
+
   if(songs.length === 0) {
     $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>')
     return;
   }
-  
-  var resultsHtml = '';
   for (var i = 0; i < songs.length; i++){
-    resultsHtml = resultsHtml + '<li>Song Title: ' + songs[i].name + ', Album Name: ' + songs[i].album + '</li>';
+    resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + '>Song Title: ' + songs[i].name + ', Album Name: ' + songs[i].album + '</li>';
   }
-
   $("#rdioResultsContainer").html(resultsHtml);
 
 }
