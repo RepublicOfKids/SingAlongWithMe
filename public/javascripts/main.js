@@ -14,6 +14,7 @@ var LYRICFIND_DISPLAY_KEY = 'asdad',
     });
   });
 
+  echonestGetAudioSummary(8519786);
 })(window.jQuery);
 
 function search(query) {
