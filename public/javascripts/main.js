@@ -69,14 +69,16 @@
     var computeMoodBg = function() {
       console.log(window.audioSummary);
 
-      var speedCoef = 500 + ".";
-      var energyCoef;
+      var speedCoef = 800 + ".";
+      var energyCoef1 = 0.5;
+      var energyCoef2 = 0.5;
       var loudnessCoef = 0.6;
 
       if (audioSummary) {
         var energy = audioSummary.energy;
         if (energy) {
-
+          energyCoef1 = energy;
+          energyCoef2 = mapNumberRanges(0, 1, 1, 0, energy);
         }
         var loudness = audioSummary.loudness;
         if (loudness) {
@@ -87,12 +89,12 @@
           speedCoef = mapNumberRanges(70, 160, 1000, 50, tempo);
         }
         var danceability = audioSummary.danceability;
-        if (danceability && danceability > 0.8) {
+        if (danceability && danceability > 0.75) {
           $("#psyContainer").show();
         }
       }
-      console.log("rave - speed " + speedCoef + "\n loudness " + loudnessCoef);
-
+      console.log("rave - speed " + speedCoef + "\n loudness " + loudnessCoef +
+       "\n energy " + energyCoef1 + " dance: " + danceability);
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
@@ -104,8 +106,10 @@
             "uniform vec2 resolution;\n" +
             "void main (void) {\n" +
             "vec2 p = ( gl_FragCoord.xy / resolution.xy );\n" +
-            "gl_FragColor = vec4(p.x, p.y, (1.+cos(time/"+ speedCoef +
-            "))/2.," + loudnessCoef + ");\n" +
+            "gl_FragColor = vec4(0.9 * (p.x * " + energyCoef1 + " + " + energyCoef2 + " * (1.+cos(time/"+ speedCoef +
+            "))/2.), 0.9 * (p.y * " + energyCoef1 + " + " + energyCoef2 + " * (1.+cos(time/"+ speedCoef +
+            "))/2.), (1.+cos(time/"+ speedCoef +
+            "))/2., " + loudnessCoef + ");\n" +
             "}",
         variables: {
           time: 0 // The time in ms
