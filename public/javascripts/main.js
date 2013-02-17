@@ -40,8 +40,8 @@
 
     var computeMoodBg = function() {
       console.log(window.audioSummary);
-      if (!Glsl.supported()) alert("WebGL is not supported.");
 
+      if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
         fragment: 
