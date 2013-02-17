@@ -64,13 +64,13 @@
     };
 
     var hideSearchContainer = function() {
+      $('h1').addClass('hidden');
       $('#searchContainer').addClass('hidden');
     };
 
     var renderLyrics = function() {
       var lyricTemplate = $('#lyricTemplate').html();
       window.timeoutsArray = [];
-
 
       hideSearchContainer();
 
