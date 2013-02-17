@@ -13,9 +13,11 @@
           query: query
         },
         success: function(response) {
-          if (response.status === 'ok' && typeof callback === 'function') {
+          if (response.status === 'ok') {
             window.searchResults = response.results;
-            return callback.call(this, response);
+            if (typeof callback === 'function') {
+              return callback.call(this, response);
+            }
           }
         },
         error: function(response) {
