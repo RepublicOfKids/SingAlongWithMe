@@ -53,15 +53,26 @@
 
     var renderLyrics = function() {
       var lyricTemplate = $('#lyricTemplate').html();
+      window.timeoutsArray = [];
+
 
       hideSearchContainer();
 
       for (var i = 0; i < lrcDataPoints.times.length; i++) {
         $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
           lyric     : lrcDataPoints.lyrics[i],
-          timestamp : lrcDataPoints.times[i]
+          timestamp : lrcDataPoints.times[i],
+          i         : i
         }));
+        setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
       }
+    };
+
+    var setTimeoutEvents = function(delay, timeoutsArray) {
+      timeoutsArray.push(window.setTimeout(function() {
+        $('.highlight-lyric').removeClass('highlight-lyric');
+        $("#lyricsContainer").find("[data-time='" + delay + "']").addClass('highlight-lyric');
+      }, delay));
     };
 
     // DOM EVENTS
