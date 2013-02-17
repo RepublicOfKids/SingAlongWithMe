@@ -6,11 +6,12 @@ var LYRICFIND_DISPLAY_KEY = 'asdad',
 ;(function($) {
 
   R.ready(function() {
-    Rdio = new RdioHelper();
+    $("#goButton").on("click", searchRdio);
 
-    $("#goButton").on("click", function () {
-      var query = $("#searchInput").val();
-      Rdio.search(query, renderRdioResults);
+    $("#searchInput").keypress(function(e) {
+      if(e.which == 13) {
+          searchRdio();
+      }
     });
   });
 
@@ -30,6 +31,12 @@ function search(query) {
   return searchUrl;
 
   // ajax search url and get trackid
+}
+
+function searchRdio() {
+  Rdio = new RdioHelper();
+  var query = $("#searchInput").val();
+  Rdio.search(query, renderRdioResults);
 }
 
 function renderRdioResults() {
