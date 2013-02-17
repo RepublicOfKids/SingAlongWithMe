@@ -2,6 +2,8 @@
  * Module dependencies.
  */
 
+process.env.PORT = process.env.PORT | 3000;
+
 var express = require('express'),
     routes  = require('./routes'),
     //  user    = require('./routes/user'),
