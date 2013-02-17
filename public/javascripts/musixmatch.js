@@ -105,7 +105,7 @@ function parseLrcData(json) {
       var timeInMs = mins+secs+millis;
       var lyric    = matches[4].trim();
       if (lyric.length==0) { lyric = "♫♫♫" };
-      if (times.length==0 && timeInMs!=0) { times.push("0"); times.push("♫♫♫"); }
+      if (times.length==0 && timeInMs!=0) { times.push("0"); lyrics.push("♫♫♫"); }
       times.push(timeInMs);
       lyrics.push(lyric);
     }
@@ -126,7 +126,7 @@ function echonestGetAudioSummary(trackId, fn) {
     id: "musixmatch-WW:song:" + trackId,
     bucket: "audio_summary"
   };
-  
+
   $.getJSON('http://developer.echonest.com/api/v4/song/profile?', params,
       function(data) {
         if (data.response.songs) {

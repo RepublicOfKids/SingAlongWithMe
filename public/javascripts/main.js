@@ -32,13 +32,8 @@
         return;
       }
       for (var i = 0; i < songs.length; i++){
-        if (i % 2 === 0) {
-          resultsHtml = resultsHtml + '<li class="list-search-result, even-item" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
-        } else {
-          resultsHtml = resultsHtml + '<li class="list-search-result, odd-item" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
-        }
-        }
-
+          resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
+      }
       $("#rdioResultsContainer").html(resultsHtml).hide();
       $("#rdioResultsContainer").show(1200);
     };
@@ -65,15 +60,26 @@
 
     var renderLyrics = function() {
       var lyricTemplate = $('#lyricTemplate').html();
+      window.timeoutsArray = [];
+
 
       hideSearchContainer();
 
       for (var i = 0; i < lrcDataPoints.times.length; i++) {
         $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
           lyric     : lrcDataPoints.lyrics[i],
-          timestamp : lrcDataPoints.times[i]
+          timestamp : lrcDataPoints.times[i],
+          i         : i
         }));
+        setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
       }
+    };
+
+    var setTimeoutEvents = function(delay, timeoutsArray) {
+      timeoutsArray.push(window.setTimeout(function() {
+        $('.highlight-lyric').removeClass('highlight-lyric');
+        $("#lyricsContainer").find("[data-time='" + delay + "']").addClass('highlight-lyric');
+      }, delay));
     };
 
     // DOM EVENTS
