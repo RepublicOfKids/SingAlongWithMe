@@ -15,19 +15,34 @@ a {
 }
 
 li {
-  list-style-type: none;
-  padding-top: 5px;
+
+}
+
+h1 {
+  text-align: center;
+  margin-top: 230px;
+  text-shadow: 0px 0px 20px red;
+  font-size: 50px;
+}
+
+#searchContainer {
+  text-align: center;
 }
 
 #searchInput {
   margin-right: 20px;
   margin-top: 10px;
+  width: 400px;
+}
+
+#goButton {
+  box-shadow: 0 0 2px black
 }
 
 #rdioPlayer {
   position: absolute;
-  bottom: 10px;
-  left: 50%;
+  top: 10px;
+  right: 10px;
   margin-left: -52px;
 }
 
@@ -47,6 +62,23 @@ li {
 
 #rdioResultsContainer {
   font-size: 22px;
+  display: block;
+  text-align: left;
+  width: 58%;
+  margin: 0 auto;
+  background-color: rgba(0,0,0, 0.6);
+  color: rgb(250, 250, 250);
+  padding: 0 5px;
+  border-radius: 4px;
+  width: 480px;
+  li {
+    list-style-type: none;
+    padding-top: 5px;
+  }
+  li:hover {
+    cursor: pointer;
+    color: white;
+  }
 }
 
 .highlight-lyric {
