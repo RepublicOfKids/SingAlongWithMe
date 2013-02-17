@@ -23,10 +23,6 @@ var Rdio = {};
       return filteredArray;
     };
 
-    var parseLRCData = function(data) {
-      console.log(data);
-    };
-
     var renderSuggestions = function() {
       var songs = filterArray(window.rdioData, window.musixmatchData),
           resultsHtml = '';
@@ -55,7 +51,7 @@ var Rdio = {};
       var $searchResult = $(event.target);
       window.playBackKey = $searchResult.data('key');
       window.trackId = $searchResult.data('track-id');
-      musixmatchGetLrcSubtitle(window.trackId, parseLRCData);
+      musixmatchGetLrcSubtitle(window.trackId, parseLrcData);
       Rdio.play(window.playBackKey);
     });
 
