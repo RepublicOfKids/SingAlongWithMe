@@ -49,8 +49,8 @@ function musixmatchGetLrcSubtitle(trackId, fn) {
 
 /*
   Perform a callback function on track_id corresponding to search query (if found).
-  It is possible for the subtitle body to be undefined even though we applied a filter 
-  on the search call to filter for songs that only contain subtitles. 
+  It is possible for the subtitle body to be undefined even though we applied a filter
+  on the search call to filter for songs that only contain subtitles.
  */
 function musixmatchGetTrackId(query, numResults, fn) {
     var params = {
@@ -98,7 +98,7 @@ function parseLrcData(json) {
     var times        = [];
     var lyrics       = [];
 
-    if (typeof subtitleBody === 'undefined') {
+    if (typeof subtitleBody !== 'undefined') {
 	for (var i=0; i < subtitles.length; i++) {
 	    var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
 	    var matches  = subtitles[i].match(re);
