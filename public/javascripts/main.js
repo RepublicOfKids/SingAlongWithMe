@@ -1,12 +1,8 @@
 ;(function($) {
   "use strict";
-  var Rdio   = {};
+
+  /*
   var socket = io.connect(window.location.href);
-  // TODO: When developing uncomment this
-
-  //var username = Math.random().toString(36).substring(7);
-  // var socket = io.connect('http://localhost:5000');
-
   // on connection to server, ask for user's name with an anonymous callback
   socket.on('connect', function(){
 	  // call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -27,6 +23,14 @@
 	  //$('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
       });
 
+  TODO: Add to jade file
+  #div(style='float: left; width: 100px; border-right: 1px solid black; height: 300px; padding: 10px; overflow: scroll-y;')
+    b USERS
+    #users
+
+  */
+
+  var Rdio   = {};
   R.ready(function() {
     Rdio = new RdioHelper();
 
@@ -51,7 +55,6 @@
     var renderSuggestions = function() {
       var songs = filterArray(window.rdioData, window.musixmatchData),
           resultsHtml = '';
-
       if(songs.length === 0) {
         $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>');
         return;
@@ -93,21 +96,26 @@
     };
 
     var renderLyrics = function() {
-      var lyricTemplate = $('#lyricTemplate').html();
-      window.timeoutsArray = [];
-
-      hideSearchContainer();
-
-      for (var i = 0; i < lrcDataPoints.times.length; i++) {
-        $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
-          lyric     : lrcDataPoints.lyrics[i],
-          timestamp : lrcDataPoints.times[i],
-          i         : i
-        }));
-        setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
+      if(lrcDataPoints.lyrics.length === 1 && lrcDataPoints.times.length === 0) {
+	  $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
+	  return;
+	  
+      } else {	
+	  var lyricTemplate = $('#lyricTemplate').html();
+	  window.timeoutsArray = [];
+	  hideSearchContainer();
+	  
+	  for (var i = 0; i < lrcDataPoints.times.length; i++) {
+	      $('#lyricsContainer').append(Hogan.compile(lyricTemplate).render({
+			  lyric     : lrcDataPoints.lyrics[i],
+			      timestamp : lrcDataPoints.times[i],
+			      i         : i
+			      }));
+	      setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray);
+	  }	
+	  // TODO: Render webcams when we get io sockets working
+	  //renderTokbox();
       }
-
-      renderTokbox();
     };
 
     var renderTokbox = function() {
@@ -135,9 +143,9 @@
     });
 
     $('body').on('click', '.list-search-result', function(event) {
-      var $searchResult = $(event.target);
+      var $searchResult  = $(event.target);
       window.playBackKey = $searchResult.data('key');
-      window.trackId = $searchResult.data('track-id');
+      window.trackId     = $searchResult.data('track-id');
       musixmatchGetLrcSubtitle(window.trackId, parseLrcData);
       echonestGetAudioSummary(window.trackId, computeMoodBg);
       Rdio.play(window.playBackKey);

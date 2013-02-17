@@ -21,10 +21,6 @@ block content
       button#rdioPause.btn.btn-primary
         i.icon-white.icon-pause
 
-    #div(style='float: left; width: 100px; border-right: 1px solid black; height: 300px; padding: 10px; overflow: scroll-y;')
-      b USERS
-        #users
-
     script(id="lyricTemplate", type="text/x-mustache-template")
       .lyric-row(data-time='{{{timestamp}}}', data-i='{{{i}}}')
         | {{lyric}}

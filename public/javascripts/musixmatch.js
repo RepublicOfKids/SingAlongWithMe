@@ -49,6 +49,8 @@ function musixmatchGetLrcSubtitle(trackId, fn) {
 
 /*
   Perform a callback function on track_id corresponding to search query (if found).
+  It is possible for the subtitle body to be undefined even though we applied a filter 
+  on the search call to filter for songs that only contain subtitles. 
  */
 function musixmatchGetTrackId(query, numResults, fn) {
     var params = {
@@ -96,18 +98,22 @@ function parseLrcData(json) {
     var times        = [];
     var lyrics       = [];
 
-    for (var i=0; i < subtitles.length; i++) {
-      var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
-      var matches  = subtitles[i].match(re);
-      var mins     = parseInt(matches[1].trim())*60*1000;
-      var secs     = parseInt(matches[2].trim())*1000;
-      var millis   = parseInt(matches[3].trim());
-      var timeInMs = mins+secs+millis;
-      var lyric    = matches[4].trim();
-      if (lyric.length==0) { lyric = "♫♫♫" };
-      if (times.length==0 && timeInMs!=0) { times.push("0"); lyrics.push("♫♫♫"); }
-      times.push(timeInMs);
-      lyrics.push(lyric);
+    if (typeof subtitleBody === 'undefined') {
+	for (var i=0; i < subtitles.length; i++) {
+	    var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
+	    var matches  = subtitles[i].match(re);
+	    var mins     = parseInt(matches[1].trim())*60*1000;
+	    var secs     = parseInt(matches[2].trim())*1000;
+	    var millis   = parseInt(matches[3].trim());
+	    var timeInMs = mins+secs+millis;
+	    var lyric    = matches[4].trim();
+	    if (lyric.length==0) { lyric = "♫♫♫" };
+	    if (times.length==0 && timeInMs!=0) { times.push("0"); lyrics.push("♫♫♫"); }
+	    times.push(timeInMs);
+	    lyrics.push(lyric);
+	}
+    } else {
+	lyrics.push("Unfortunately we're not authorized to show these lyrics.")
     }
 
     window.lrcDataPoints = new lrcData(times, lyrics);
