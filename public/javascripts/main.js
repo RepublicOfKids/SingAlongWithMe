@@ -1,7 +1,9 @@
 ;(function($) {
   "use strict";
   var Rdio   = {};
-  var socket = io.connect('http://localhost:5000');
+  var socket = io.connect(window.location.href);
+  // TODO: When developing uncomment this
+  // var socket = io.connect('http://localhost:5000');
 
   // on connection to server, ask for user's name with an anonymous callback
   socket.on('connect', function(){
