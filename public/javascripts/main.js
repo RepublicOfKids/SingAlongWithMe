@@ -63,6 +63,7 @@
           resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
       }
       $("#rdioResultsContainer").html(resultsHtml).removeClass('hidden');
+      $('#credits').addClass('hidden');
       //$("#rdioResultsContainer").show(1200);
     };
 
