@@ -13,7 +13,19 @@
         },
         success: function(response) {
           if (response.status === 'ok') {
-            window.searchResults = response.result;
+            var rdioData = [],
+                rdioResults = response.result.results;
+            for (var i=0; i < response.result.results.length; i++) {
+              rdioData.push({
+                track: rdioResults[i].name,
+                album: rdioResults[i].album,
+                artist: rdioResults[i].artist,
+                key: rdioResults[i].key
+              });
+            }
+
+            window.rdioData = rdioData;
+
             if (typeof callback === 'function') {
               return callback.call(this, response);
             }
