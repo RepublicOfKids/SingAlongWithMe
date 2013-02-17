@@ -58,12 +58,11 @@
 
     var computeMoodBg = function() {
       console.log(window.audioSummary);
-
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
-        fragment: 
-            "#ifdef GL_ES\n" + 
+        fragment:
+            "#ifdef GL_ES\n" +
             "precision mediump float;\n" +
             "#endif\n" +
             "uniform float time;\n" +
@@ -105,11 +104,11 @@
     };
 
     var renderTokbox = function() {
-	TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
-	window.session = TB.initSession(TOKBOX_SESSION_ID);
-	session.addEventListener('sessionConnected', sessionConnectedHandler);
-	session.addEventListener('streamCreated', streamCreatedHandler);
-	session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
+      TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+      window.session = TB.initSession(TOKBOX_SESSION_ID);
+      session.addEventListener('sessionConnected', sessionConnectedHandler);
+      session.addEventListener('streamCreated', streamCreatedHandler);
+      session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
     var setTimeoutEvents = function(delay, timeoutsArray) {
