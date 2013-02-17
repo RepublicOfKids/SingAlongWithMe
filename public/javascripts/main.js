@@ -89,12 +89,12 @@
           speedCoef = mapNumberRanges(70, 160, 1000, 50, tempo);
         }
         var danceability = audioSummary.danceability;
-        if (danceability && danceability > 0.8) {
+        if (danceability && danceability > 0.75) {
           $("#psyContainer").show();
         }
       }
       console.log("rave - speed " + speedCoef + "\n loudness " + loudnessCoef +
-       "\n energy " + energyCoef1);
+       "\n energy " + energyCoef1 + " dance: " + danceability);
       if (!Glsl.supported()) alert("WebGL is not supported.");
       var glsl = Glsl({
         canvas: document.getElementById("viewport"),
