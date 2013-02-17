@@ -1,52 +1,76 @@
-var LYRICFIND_DISPLAY_KEY = 'asdad',
-    LYRICFIND_LRC_KEY = 'asdas',
-    LYRICFIND_SEARCH_KEY = 'asdas',
-    Rdio = {};
+var Rdio = {};
 
 ;(function($) {
 
   R.ready(function() {
     Rdio = new RdioHelper();
 
-    $("#goButton").on("click", function () {
+    var searchForSong = function() {
       var query = $("#searchInput").val();
-      Rdio.search(query, renderRdioResults);
+      musixmatchGetTrackId(query, 10, Rdio.search.bind(this, query, renderSuggestions));
+    };
+
+    var filterArray = function(a, b) {
+      var filteredArray = [];
+      for (var i = 0; i < a.length; i++) {
+        for (var j = 0; j < b.length; j++) {
+          if (a[i].track.toLowerCase() === b[j].track.toLowerCase() && a[i].artist.toLowerCase() === b[j].artist.toLowerCase() && a[i].album.toLowerCase() === b[j].album.toLowerCase()) {
+            a[i].track_id = b[j].key;
+            filteredArray.push(a[i]);
+          }
+        }
+      }
+      return filteredArray;
+    };
+
+    var parseLRCData = function(data) {
+      console.log(data);
+    };
+
+    var renderSuggestions = function() {
+      var songs = filterArray(window.rdioData, window.musixmatchData),
+          resultsHtml = '';
+
+      if(songs.length === 0) {
+        $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>');
+        return;
+      }
+      for (var i = 0; i < songs.length; i++){
+        resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
+      }
+      $("#rdioResultsContainer").html(resultsHtml);
+
+    };
+
+    // DOM EVENTS
+    $("#goButton").on("click", searchForSong);
+
+    $("#searchInput").keypress(function(e) {
+      if(e.which === 13) {
+          searchForSong();
+      }
+    });
+
+    $('body').on('click', '.list-search-result', function(event) {
+      var $searchResult = $(event.target);
+      window.playBackKey = $searchResult.data('key');
+      window.trackId = $searchResult.data('track-id');
+      musixmatchGetLrcSubtitle(window.trackId, parseLRCData);
+      Rdio.play(window.playBackKey);
+    });
+
+    $('#rdioPlay').on('click', function() {
+      Rdio.togglePause();
+    });
+
+    $('#rdioPause').on('click', function(event) {
+      Rdio.pause();
     });
   });
 
   echonestGetAudioSummary(8519786);
 })(window.jQuery);
 
-function search(query) {
-  var searchParams = {
-    apikey: LYRICFIND_SEARCH_KEY,
-    reqtype: "default",
-    searchtype: "track",
-    all: "query",
-    limit: 1
-  };
 
-  var searchUrl = 'http://api.lyricfind.com/search.do?' +  $.param(searchParams);
-
-  return searchUrl;
-
-  // ajax search url and get trackid
-}
-
-function renderRdioResults() {
-  var songs = window.searchResults.results;
-  if(songs.length === 0) {
-    $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>')
-    return;
-  }
-  
-  var resultsHtml = '';
-  for (var i = 0; i < songs.length; i++){
-    resultsHtml = resultsHtml + '<li>Song Title: ' + songs[i].name + ', Album Name: ' + songs[i].album + '</li>';
-  }
-
-  $("#rdioResultsContainer").html(resultsHtml);
-
-}
 
 
