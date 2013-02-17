@@ -36,7 +36,10 @@ app.get('/', routes.index);
 
 // usernames which are currently connected to the root
 var usernames = {};
-
+io.configure(function () {
+	io.set("transports", ["xhr-polling"]); 
+	io.set("polling duration", 10); 
+});
 io.sockets.on('connection', function (socket) {
 	// when the client emits 'adduser', this listens and executes
 	socket.on('adduser', function(username){
