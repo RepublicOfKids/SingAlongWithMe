@@ -3,7 +3,7 @@
  *****************/
 
 var MUSIXMATCH_SEARCH_KEY = '82be3ea3f79ea404d45f47607c103eff';
-var ECHONEST_API_KEY = 'DXSCDJZB0VMRMKUTG';
+var ECHONEST_API_KEY      = 'DXSCDJZB0VMRMKUTG';
 
 /*****************
  Objects
@@ -11,8 +11,8 @@ var ECHONEST_API_KEY = 'DXSCDJZB0VMRMKUTG';
 
 function lrcData(times,lyrics)
 {
-    this.times = times
-    this.lyrics     = lyrics
+    this.times  = times
+    this.lyrics = lyrics
 }
 
 /*****************
@@ -104,6 +104,7 @@ function parseLrcData(json) {
       var millis   = parseInt(matches[3].trim());
       var timeInMs = mins+secs+millis;
       var lyric    = matches[4].trim();
+      if (lyric.length==0) { lyric = "♫♫♫" };
       times.push(timeInMs);
       lyrics.push(lyric);
     }
@@ -136,5 +137,4 @@ function echonestGetAudioSummary(trackId, fn) {
           fn();
         }
       });
-
 }
