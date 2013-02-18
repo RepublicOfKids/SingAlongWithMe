@@ -31,7 +31,7 @@ Ensure that node and npm are in your path.
 
     $ echo $PATH
 
-If you don't see the folder which contains where Node.js was installed to open your .bashrc file and enter in (assuming your installation of node/npm are in these folders:
+If you don't see the folder which contains where Node.js was installed to open your .bashrc file and enter in (assuming your installation of node/npm are in these folders):
 
     $ export PATH=$PATH:/opt/node/bin:/usr/local/share/npm/bin
 
