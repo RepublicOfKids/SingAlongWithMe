@@ -6,9 +6,20 @@ html(lang="en")
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript')
+      var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38636035-1']);
+        _gaq.push(['_setDomainName', 'herokuapp.com']);
+        _gaq.push(['_trackPageview']);
+      (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
   body
     block content
-    
+
     script(type="text/javascript", src="/javascripts/vendor/jquery-1.9.0.min.js")
     script(type="text/javascript", src="/javascripts/vendor/modernizr-2.6.2.min.js")
     script(type="text/javascript", src="/javascripts/vendor/handlebars-1.0.0.min.js")
