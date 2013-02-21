@@ -30,6 +30,9 @@
 
   */
 
+  // returns true if user is using one of the following mobile browsers
+  var isMobile= !!navigator.userAgent.match(/(iPad|iPhone|iPod|android|webOS|Mobile)/i)
+
   var Rdio   = {};
   R.ready(function() {
     Rdio = new RdioHelper();
