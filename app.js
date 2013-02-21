@@ -37,10 +37,6 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-//app.get('/users', user.list);
-
-// usernames which are currently connected to the root
-var usernames = {};
 
 io.configure(function () {
 	io.set("transports", ["xhr-polling"]);
@@ -48,34 +44,19 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-	// when the client emits 'adduser', this listens and executes
-	socket.on('adduser', function(username){
-		// we store the username in the socket session for this client
-		socket.username = username;
-		// add the client's username to the global list
-		usernames[username] = username;
-		// echo to client they've connected
-		// TODO: emit data about room to user
-		socket.emit('updateroom', 'SERVER', 'you have connected');
-		// echo globally (all clients) that a person has connected
-		// TODO: Update room info to all other clients
-		socket.broadcast.emit('updateroom', 'SERVER', username + ' has connected');
-		// update the list of users in chat, client-side
-		io.sockets.emit('updateusers', usernames);
+	// When the client is added
+	socket.on('addUser', function(message) {
+		// Echo globally (all clients) that a person has connected
+		socket.broadcast.emit('broadcastData', message);
 	});
 
-	// when the user disconnects.. perform this
+	// When the user disconnects
 	socket.on('disconnect', function(){
-		// remove the username from global usernames list
-		delete usernames[socket.username];
-		// update list of users in chat, client-side
-		io.sockets.emit('updateusers', usernames);
-		// echo globally that this client has left
-		socket.broadcast.emit('updateroom', 'SERVER', socket.username + ' has disconnected');
-	  });
+		// Echo globally that this client has left
+		// socket.broadcast.emit('updateroom', 'SERVER', socket.username + ' has disconnected');
+	});
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-  //  console.log("Express server listening on port " + app.get('port'));
   console.log("Express server listening on port " + process.env.PORT);
 });
