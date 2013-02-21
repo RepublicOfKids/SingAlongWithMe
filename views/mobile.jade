@@ -1,0 +1,9 @@
+extends layout
+
+block content
+      h1=title
+      
+      #searchContainer
+        input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
+        button#goButton(type="submit", class="btn btn-primary") Go
+        #rdioResultsContainer.hidden
