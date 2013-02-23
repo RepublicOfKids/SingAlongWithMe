@@ -1,34 +1,17 @@
 ;(function($) {
   "use strict";
 
-  /*
+
   var socket = io.connect(window.location.href);
-  // on connection to server, ask for user's name with an anonymous callback
+  // Connecting to server
   socket.on('connect', function(){
-	  // call the server-side function 'adduser' and send one parameter (value of prompt)
-	  socket.emit('adduser', prompt("Who are you?"));
+	  socket.emit('addUser', prompt("What?"));
       });
 
-  // listener, whenever the server emits 'updatechat', this updates the chat body
-  socket.on('updateroom', function (username, data) {
-	  $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-      });
-
-  // listener, whenever the server emits 'updateusers', this updates the username list
-  socket.on('updateusers', function(data) {
-	  $('#users').empty();
-	  $.each(data, function(key, value) {
-		  $('#users').append('<div>' + key + '</div>');
-	      });
-	  //$('#users').html('<div>Total Users: ' + Object.keys(data).length + '</div>');
-      });
-
-  TODO: Add to jade file
-  #div(style='float: left; width: 100px; border-right: 1px solid black; height: 300px; padding: 10px; overflow: scroll-y;')
-    b USERS
-    #users
-
-  */
+  // Updating the room
+  socket.on('broadcastData', function (data) {
+	  alert(data);
+  });
 
   var Rdio   = {};
   R.ready(function() {
@@ -64,7 +47,6 @@
       }
       $("#rdioResultsContainer").html(resultsHtml).removeClass('hidden');
       $('#credits').addClass('hidden');
-      //$("#rdioResultsContainer").show(1200);
     };
 
     var computeMoodBg = function() {
