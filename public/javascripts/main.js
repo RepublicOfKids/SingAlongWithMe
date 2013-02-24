@@ -1,7 +1,6 @@
 ;(function($) {
   "use strict";
 
-
   var socket = io.connect(window.location.href);
   // Connecting to server
   socket.on('connect', function(){
@@ -116,25 +115,7 @@
       if(lrcDataPoints.lyrics.length === 1 && lrcDataPoints.times.length === 0) {
 	      $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
 	      return;
-	    } else {
-        var lyricTemplate = $('#lyricTemplate').html(),
-            lyricsContainer = $('#lyricsContainer');
-        window.timeoutsArray = [];
-
-        hideSearchContainer();
-
-        for (var i = 0; i < lrcDataPoints.times.length; i++) {
-          lyricsContainer.append(Hogan.compile(lyricTemplate).render({
-            lyric     : lrcDataPoints.lyrics[i],
-            timestamp : lrcDataPoints.times[i],
-            i         : i
-          }));
-          setTimeoutEvents(lrcDataPoints.times[i], window.timeoutsArray, i);
-        }
-
-        lyricsContainer.removeClass('hidden');
-        //renderTokbox();
-      }
+	    }
     };
 
     var renderTokbox = function() {
@@ -145,13 +126,15 @@
       session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
 
-    var setTimeoutEvents = function(delay, timeoutsArray, i) {
+    window.setTimeoutEvents = function(delay, timeoutsArray, i) {
       timeoutsArray.push(window.setTimeout(function() {
         $('.highlight-lyric').removeClass('highlight-lyric');
         $("#lyricsContainer").find("[data-time='" + delay + "']").addClass('highlight-lyric');
         $('#lyricsContainer').scrollTop(36 * i);
       }, delay));
     };
+
+    var lyricsContainer = new app.LyricsContainerView();
 
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
@@ -180,7 +163,7 @@
       Rdio.pause();
     });
 
-    $.subscribe('show_lyrics', renderLyrics);
+    $.subscribe('show_lyrics', hideSearchContainer);
 
     $('#searchInput').focus();
   });
