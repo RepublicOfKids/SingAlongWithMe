@@ -1,3 +1,5 @@
+/*global Backbone _ $ ENTER_KEY Hogan R*/
+
 ;(function($) {
   "use strict";
 
@@ -12,9 +14,10 @@
 	  alert(data);
   });
 
-  var Rdio   = {};
+  var Rdio = {};
+
   R.ready(function() {
-    Rdio = new RdioHelper();
+    Rdio = new app.RdioHelper();
 
     var searchForSong = function() {
       var query = $("#searchInput").val();
@@ -104,7 +107,7 @@
 
     var mapNumberRanges  = function(min1, max1, min2, max2, input) {
       return ((input - min1) / (max1 - min1)) * (max2 - min2) + min2;
-    }
+    };
 
     var hideSearchContainer = function() {
       $('h1').addClass('hidden');

@@ -1,3 +1,6 @@
+/*global Backbone _ $ ENTER_KEY */
+var app = app || {};
+
 /*****************
  Constants
  *****************/
@@ -9,10 +12,9 @@ var ECHONEST_API_KEY      = 'DXSCDJZB0VMRMKUTG';
  Objects
  *****************/
 
-function lrcData(times,lyrics)
-{
-    this.times  = times
-    this.lyrics = lyrics
+function lrcData(times,lyrics) {
+    this.times  = times;
+    this.lyrics = lyrics;
 }
 
 /*****************
@@ -103,23 +105,24 @@ function parseLrcData(json) {
       lyrics.push("Unfortunately we're not authorized to show these lyrics.");
     } else {
       for (var i=0; i < subtitles.length; i++) {
-          var re       = /\[(\d+):(\d+).(\d+)\](.*)/i;
-          var matches  = subtitles[i].match(re);
-          var mins     = parseInt(matches[1].trim())*60*1000;
-          var secs     = parseInt(matches[2].trim())*1000;
-          var millis   = parseInt(matches[3].trim());
-          var timeInMs = mins+secs+millis;
-          var lyric    = matches[4].trim();
-          if (lyric.length==0) { lyric = "♫♫♫" };
-          if (times.length==0 && timeInMs!=0) { times.push("0"); lyrics.push("♫♫♫"); }
-          times.push(timeInMs);
-          lyrics.push(lyric);
+          var re       = /\[(\d+):(\d+).(\d+)\](.*)/i,
+              matches  = subtitles[i].match(re),
+              mins     = parseInt(matches[1].trim(), 10)*60*1000,
+              secs     = parseInt(matches[2].trim(), 10)*1000,
+              millis   = parseInt(matches[3].trim(), 10),
+              timeInMs = mins+secs+millis,
+              lyric    = matches[4].trim();
+
+          if (i === 0 && timeInMs !== 0) {
+            app.LyricDataList.add({'time': 0, 'lyric': "♫ ♫ ♫"});
+          }
+
+          app.LyricDataList.add({'time': timeInMs, 'lyric': lyric});
       }
     }
 
-    window.lrcDataPoints = new lrcData(times, lyrics);
     $.publish('show_lyrics');
-};
+}
 
 
 /*
