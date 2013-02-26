@@ -117,7 +117,7 @@ function parseLrcData(json) {
             app.LyricDataList.add({'time': 0, 'lyric': "♫ ♫ ♫"});
           }
 
-          app.LyricDataList.add({'time': timeInMs, 'lyric': lyric});
+          app.LyricDataList.add({'time': timeInMs, 'lyric': lyric || "♫ ♫ ♫"});
       }
     }
 
