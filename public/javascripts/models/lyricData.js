@@ -10,7 +10,7 @@ $(function () {
     app.LyricData = Backbone.Model.extend({
 
         defaults : {
-            time : '',
+            time  : '',
             lyric : ''
         }
 

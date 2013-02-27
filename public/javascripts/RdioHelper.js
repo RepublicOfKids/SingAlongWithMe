@@ -43,14 +43,25 @@ var app = app || {};
 
         play: function(key) {
             R.player.play({source: key});
+            app.TimeoutList.playAll(R.player.position()*1000);
+        },
+
+        resume: function() {
+            R.player.togglePause();
+            app.TimeoutList.playAll(R.player.position()*1000);
         },
 
         pause: function() {
             R.player.pause();
+            app.TimeoutList.pauseAll();
         },
 
         togglePause : function() {
-            R.player.togglePause();
+            if (R.player.playState() === R.player.PLAYSTATE_PLAYING) {
+                this.pause();
+            } else if (R.player.playState() === R.player.PLAYSTATE_PAUSED) {
+                this.resume();
+            }
         }
 
     };

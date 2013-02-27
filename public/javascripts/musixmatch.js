@@ -104,6 +104,7 @@ function parseLrcData(json) {
     if (typeof subtitleBody === 'undefined' || !subtitleBody.length) {
       lyrics.push("Unfortunately we're not authorized to show these lyrics.");
     } else {
+      var lyricsCount = 0;
       for (var i=0; i < subtitles.length; i++) {
           var re       = /\[(\d+):(\d+).(\d+)\](.*)/i,
               matches  = subtitles[i].match(re),
@@ -115,13 +116,18 @@ function parseLrcData(json) {
 
           if (i === 0 && timeInMs !== 0) {
             app.LyricDataList.add({'time': 0, 'lyric': "♫ ♫ ♫"});
+            app.TimeoutList.push(new app.Timeout(app.LyricsContainer.highlightLyric.bind(this, timeInMs, lyricsCount), timeInMs));
+            ++lyricsCount;
           }
 
           app.LyricDataList.add({'time': timeInMs, 'lyric': lyric || "♫ ♫ ♫"});
+          app.TimeoutList.push(new app.Timeout(app.LyricsContainer.highlightLyric.bind(this, timeInMs, lyricsCount), timeInMs));
+          ++lyricsCount;
       }
     }
 
     $.publish('show_lyrics');
+    $.publish('play_song');
 }
 
 

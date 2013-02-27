@@ -1,4 +1,4 @@
-/*global Backbone _ $ ENTER_KEY Hogan R*/
+/*global Backbone _ $ ENTER_KEY Hogan R Glsl*/
 
 ;(function($) {
   "use strict";
@@ -6,12 +6,12 @@
   var socket = io.connect(window.location.href);
   // Connecting to server
   socket.on('connect', function(){
-	  socket.emit('addUser', prompt("What?"));
+    socket.emit('addUser', prompt("What?"));
       });
 
   // Updating the room
   socket.on('broadcastData', function (data) {
-	  alert(data);
+    alert(data);
   });
 
   var Rdio = {};
@@ -54,10 +54,11 @@
     var computeMoodBg = function() {
       console.log(window.audioSummary);
 
-      var speedCoef = 800 + ".";
-      var energyCoef1 = 0.5;
-      var energyCoef2 = 0.5;
+      var speedCoef    = 800 + ".";
+      var energyCoef1  = 0.5;
+      var energyCoef2  = 0.5;
       var loudnessCoef = 0.6;
+      var danceability;
 
       if (audioSummary) {
         var energy = audioSummary.energy;
@@ -73,7 +74,7 @@
         if (tempo) {
           speedCoef = mapNumberRanges(70, 160, 1000, 50, tempo);
         }
-        var danceability = audioSummary.danceability;
+        danceability = audioSummary.danceability;
         if (danceability && danceability > 0.75) {
           $("#psyContainer").show();
         }
@@ -116,9 +117,9 @@
 
     var renderLyrics = function() {
       if(lrcDataPoints.lyrics.length === 1 && lrcDataPoints.times.length === 0) {
-	      $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
-	      return;
-	    }
+        $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
+        return;
+      }
     };
 
     var renderTokbox = function() {
@@ -128,16 +129,6 @@
       session.addEventListener('streamCreated', streamCreatedHandler);
       session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
     };
-
-    window.setTimeoutEvents = function(delay, timeoutsArray, i) {
-      timeoutsArray.push(window.setTimeout(function() {
-        $('.highlight-lyric').removeClass('highlight-lyric');
-        $("#lyricsContainer").find("[data-time='" + delay + "']").addClass('highlight-lyric');
-        $('#lyricsContainer').scrollTop(36 * i);
-      }, delay));
-    };
-
-    var lyricsContainer = new app.LyricsContainerView();
 
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
@@ -154,16 +145,15 @@
       window.trackId     = $searchResult.data('track-id');
       musixmatchGetLrcSubtitle(window.trackId, parseLrcData);
       echonestGetAudioSummary(window.trackId, computeMoodBg);
-      Rdio.play(window.playBackKey);
-      $('#rdioPlayer').removeClass('hidden');
     });
 
     $('#rdioPlay').on('click', function() {
       Rdio.togglePause();
     });
 
-    $('#rdioPause').on('click', function(event) {
-      Rdio.pause();
+    $.subscribe('play_song', function() {
+      Rdio.play(window.playBackKey);
+      $('#rdioPlayer').removeClass('hidden');
     });
 
     $.subscribe('show_lyrics', hideSearchContainer);
