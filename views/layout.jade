@@ -20,7 +20,7 @@ html(lang="en")
   body
     block content
 
-    //-  Vendor Specific Javascript
+    //  -  Vendor Javascript
     script(type="text/javascript", src="/javascripts/vendor/jquery-1.9.0.min.js")
     script(type="text/javascript", src="/javascripts/vendor/tinypubsub.js")
     script(type="text/javascript", src="/javascripts/vendor/underscore.min.js")
@@ -34,19 +34,30 @@ html(lang="en")
     // script(type="text/javascript", src="http://static.opentok.com/v0.91/js/TB.min.js")
 
 
-    //- App Javascript
+    //  - App Javascript
+
+    // -- Models
     script(type="text/javascript", src="/javascripts/models/lyricData.js")
     script(type="text/javascript", src="/javascripts/models/timeout.js")
+    script(type="text/javascript", src="/javascripts/models/searchResult.js")
+
+    // -- Collections
     script(type="text/javascript", src="/javascripts/collections/lyricDataList.js")
     script(type="text/javascript", src="/javascripts/collections/timeoutList.js")
-    script(type="text/javascript", src="/javascripts/views/lyricsContainer.js")
-    script(type="text/javascript", src="/javascripts/views/searchResultsView.js")
+    script(type="text/javascript", src="/javascripts/collections/SearchResultsList.js")
 
-    script(type="text/javascript", src="/javascripts/plugins.js")
+    // -- Views
+    script(type="text/javascript", src="/javascripts/views/lyricsContainer.js")
+    script(type="text/javascript", src="/javascripts/views/searchResults.js")
+
+    // -- Adapters
     script(type="text/javascript", src="/javascripts/adapters/rdio.js")
     script(type="text/javascript", src="/javascripts/adapters/musixmatch.js")
     script(type="text/javascript", src="/javascripts/adapters/echonest.js")
     script(type="text/javascript", src="/javascripts/adapters/tokbox.js")
+
+    // -- Core
     script(type="text/javascript", src="/javascripts/user.js")
+    script(type="text/javascript", src="/javascripts/plugins.js")
 
     script(type="text/javascript", src="/javascripts/main.js")

@@ -16,17 +16,22 @@ $(function () {
         },
 
         initialize : function(callback, originalDelay) {
-            this.callback      = callback;
-            this.originalDelay = originalDelay;
+            this.set({
+                callback : callback,
+                originalDelay : originalDelay
+            });
         },
 
         pause : function() {
-            window.clearTimeout(this.id);
+            window.clearTimeout(this.get('id'));
         },
 
         play : function(current) {
-            this.remainingDelay = this.originalDelay - current;
-            this.id             = window.setTimeout(this.callback, this.remainingDelay);
+            var remainingDelay = this.get('originalDelay') - current;
+            this.set({
+                remainingDelay : remainingDelay,
+                id: window.setTimeout(this.get('callback'), remainingDelay)
+            });
         }
     });
 

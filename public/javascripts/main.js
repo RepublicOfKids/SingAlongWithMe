@@ -25,23 +25,9 @@ var app = app || {};
       app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
     };
 
-    var filterArray = function(a, b) {
-      var filteredArray = [];
-      for (var i = 0; i < a.length; i++) {
-        for (var j = 0; j < b.length; j++) {
-          if (a[i].track.toLowerCase() === b[j].track.toLowerCase() && a[i].artist.toLowerCase() === b[j].artist.toLowerCase() && a[i].album.toLowerCase() === b[j].album.toLowerCase()) {
-            a[i].track_id = b[j].key;
-            filteredArray.push(a[i]);
-          }
-        }
-      }
-      return filteredArray;
-    };
-
     var renderSuggestions = function() {
-      var songs_array = filterArray(window.rdioData, window.musixmatchData),
-          songs = {songs: songs_array};
-      app.searchResults.render(songs);
+      app.searchResultsList.addMatches(window.rdioData, window.musixmatchData);
+      //app.searchResultsContainer.render(app.searchResultsList.toJSON);
       $('#credits').addClass('hidden');
     };
 
@@ -104,18 +90,18 @@ var app = app || {};
       return ((input - min1) / (max1 - min1)) * (max2 - min2) + min2;
     };
 
-    var hideSearchContainer = function() {
+    var hideTitleScreen = function() {
       $('h1').addClass('hidden');
       $('#searchContainer').addClass('hidden');
     };
 
-    var renderTokbox = function() {
-      TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
-      window.session = TB.initSession(TOKBOX_SESSION_ID);
-      session.addEventListener('sessionConnected', sessionConnectedHandler);
-      session.addEventListener('streamCreated', streamCreatedHandler);
-      session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
-    };
+    // var renderTokbox = function() {
+    //   TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+    //   window.session = TB.initSession(TOKBOX_SESSION_ID);
+    //   session.addEventListener('sessionConnected', sessionConnectedHandler);
+    //   session.addEventListener('streamCreated', streamCreatedHandler);
+    //   session.connect(TOKBOX_API_KEY, TOKBOX_TOKEN);
+    // };
 
     // DOM EVENTS
     $("#goButton").on("click", searchForSong);
@@ -143,7 +129,7 @@ var app = app || {};
       $('#rdioPlayer').removeClass('hidden');
     });
 
-    $.subscribe('show_lyrics', hideSearchContainer);
+    $.subscribe('show_lyrics', hideTitleScreen);
 
     $('#searchInput').focus();
   });

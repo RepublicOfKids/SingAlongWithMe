@@ -4,8 +4,8 @@ var app = app || {};
 $(function () {
     "use strict";
 
-    // TimeoutList Data Model
-    // -----------------
+    // Timeout Data Collection
+    // -----------------------
 
     var TimeoutList = Backbone.Collection.extend({
         model: app.Timeout,

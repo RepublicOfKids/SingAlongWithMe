@@ -4,8 +4,8 @@ var app = app || {};
 $(function () {
     "use strict";
 
-    // Lyrics Container View
-    // ---------------------
+    // Search Results View
+    // -------------------
 
     var SearchResultsView = Backbone.View.extend({
 
@@ -15,9 +15,14 @@ $(function () {
 
         template : Hogan.compile($('#searchResultTemplate').html()),
 
+        initialize : function() {
+            $.subscribe('show_lyrics', this.hide.bind(this));
+            this.listenTo(app.searchResultsList, 'add_results', this.render.bind(this));
+        },
+
         render : function(songs) {
             this.empty();
-            this.$el.append(this.template.render(songs));
+            this.$el.append(this.template.render({songs: app.searchResultsList.toJSON()}));
             this.show();
         },
 
@@ -34,6 +39,6 @@ $(function () {
         }
     });
 
-    app.searchResults = new SearchResultsView();
+    app.searchResultsContainer = new SearchResultsView();
 
 });
