@@ -4,9 +4,9 @@ var app = app || {};
 ;(function($) {
     "use strict";
 
-    app.RdioHelper = function(){};
+    app.RdioAdapter = function(){};
 
-    app.RdioHelper.prototype = {
+    app.RdioAdapter.prototype = {
 
         search: function(query, callback) {
             R.request({

@@ -1,4 +1,5 @@
 /*global Backbone _ $ ENTER_KEY Hogan R Glsl*/
+var app = app || {};
 
 ;(function($) {
   "use strict";
@@ -14,14 +15,14 @@
     alert(data);
   });
 
-  var Rdio = {};
-
   R.ready(function() {
-    Rdio = new app.RdioHelper();
+    app.rdio = new app.RdioAdapter();
+    app.musixMatch = new app.MusixMatchAdapter();
+
 
     var searchForSong = function() {
       var query = $("#searchInput").val();
-      musixmatchGetTrackId(query, 50, Rdio.search.bind(this, query, renderSuggestions));
+      app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
     };
 
     var filterArray = function(a, b) {
@@ -38,16 +39,9 @@
     };
 
     var renderSuggestions = function() {
-      var songs = filterArray(window.rdioData, window.musixmatchData),
-          resultsHtml = '';
-      if(songs.length === 0) {
-        $("#rdioResultsContainer").html('<p>Sorry, no results found.</p>').removeClass('hidden');
-        return;
-      }
-      for (var i = 0; i < songs.length; i++){
-          resultsHtml = resultsHtml + '<li class="list-search-result" data-key=' + songs[i].key + ' data-track-id=' + songs[i].track_id + '>' + songs[i].artist + ' - ' + songs[i].track + '</li>';
-      }
-      $("#rdioResultsContainer").html(resultsHtml).removeClass('hidden');
+      var songs_array = filterArray(window.rdioData, window.musixmatchData),
+          songs = {songs: songs_array};
+      app.searchResults.render(songs);
       $('#credits').addClass('hidden');
     };
 
@@ -115,13 +109,6 @@
       $('#searchContainer').addClass('hidden');
     };
 
-    var renderLyrics = function() {
-      if(lrcDataPoints.lyrics.length === 1 && lrcDataPoints.times.length === 0) {
-        $("#rdioResultsContainer").html('<p>'+lrcDataPoints.lyrics[0]+'</p>');
-        return;
-      }
-    };
-
     var renderTokbox = function() {
       TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
       window.session = TB.initSession(TOKBOX_SESSION_ID);
@@ -143,16 +130,16 @@
       var $searchResult  = $(event.target);
       window.playBackKey = $searchResult.data('key');
       window.trackId     = $searchResult.data('track-id');
-      musixmatchGetLrcSubtitle(window.trackId, parseLrcData);
+      app.musixMatch.getLrcSubtitle(window.trackId, app.musixMatch.parseLrcData);
       echonestGetAudioSummary(window.trackId, computeMoodBg);
     });
 
     $('#rdioPlay').on('click', function() {
-      Rdio.togglePause();
+      app.rdio.togglePause();
     });
 
     $.subscribe('play_song', function() {
-      Rdio.play(window.playBackKey);
+      app.rdio.play(window.playBackKey);
       $('#rdioPlayer').removeClass('hidden');
     });
 
