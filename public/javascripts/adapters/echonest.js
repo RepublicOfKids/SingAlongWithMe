@@ -1,37 +1,35 @@
 /*global Backbone _ $ ENTER_KEY */
 var app = app || {};
 
-/*****************
- Constants
- *****************/
+;(function($) {
+    "use strict";
 
-var ECHONEST_API_KEY      = 'DXSCDJZB0VMRMKUTG';
+    app.EchonestAdapter = function(){};
 
-/*****************
- Functions
- *****************/
+    app.EchonestAdapter.prototype = {
 
-/*
-  Get song qualities from echonest
-*/
-function echonestGetAudioSummary(trackId, fn) {
-  var params = {
-    api_key: ECHONEST_API_KEY,
-    format: "json",
-    results: "1",
-    id: "musixmatch-WW:song:" + trackId,
-    bucket: "audio_summary"
-  };
+        ECHONEST_API_KEY : 'DXSCDJZB0VMRMKUTG',
 
-  $.getJSON('http://developer.echonest.com/api/v4/song/profile?', params,
-      function(data) {
-        if (data.response.songs) {
-          window.audioSummary = data.response.songs[0].audio_summary;
-        } else {
-          window.audioSummary = null;
+        getAudioSummary : function(trackId) {
+            var params = {
+                api_key: this.ECHONEST_API_KEY,
+                format: "json",
+                results: "1",
+                id: "musixmatch-WW:song:" + trackId,
+                bucket: "audio_summary"
+            };
+
+            $.getJSON('http://developer.echonest.com/api/v4/song/profile?', params,
+                function(data) {
+                    if (data.response.songs) {
+                        var audioSummary = data.response.songs[0].audio_summary;
+                        app.echonestMood.setMood(audioSummary.energy, audioSummary.loudness, audioSummary.danceability, audioSummary.tempo);
+                    } else {
+                        app.echonestMood.ready();
+                    }
+                }
+            );
         }
-        if (typeof fn === 'function') {
-          fn();
-        }
-      });
-}
+    };
+
+})(window.jQuery);

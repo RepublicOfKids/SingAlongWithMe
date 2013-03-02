@@ -47,6 +47,7 @@ $(function () {
         }
 
     });
+
     app.LyricsContainer = new LyricsContainerView();
 
 });
