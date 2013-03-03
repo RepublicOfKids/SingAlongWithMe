@@ -7,7 +7,7 @@ $(function () {
     // Lyrics Container View
     // ---------------------
 
-    app.LyricsContainerView = Backbone.View.extend({
+    var LyricsContainerView = Backbone.View.extend({
 
         tagName : 'div',
 
@@ -21,25 +21,33 @@ $(function () {
 
         render : function() {
             window.timeoutsArray = [];
-            this.populate_container_with_lyrics();
-            this.unhide_container();
+            this.populateContainerWithLyrics();
+            this.unhideContainer();
             return this;
         },
 
-        populate_container_with_lyrics : function() {
+        populateContainerWithLyrics : function() {
             for (var i = 0; i < app.LyricDataList.length; i++) {
                 this.$el.append(this.template.render({
                     lyric     : app.LyricDataList.at(i).get('lyric'),
                     timestamp : app.LyricDataList.at(i).get('time'),
                     i         : i
-              }));
-              window.setTimeoutEvents(app.LyricDataList.at(i).get('time'), window.timeoutsArray, i);
+                }));
             }
         },
 
-        unhide_container : function() {
+        unhideContainer : function() {
           this.$el.removeClass('hidden');
+        },
+
+        highlightLyric : function(timeInMs, lyricsCount) {
+            $('.highlight-lyric').removeClass('highlight-lyric');
+            $("#lyricsContainer").find("[data-time='" + timeInMs + "']").addClass('highlight-lyric');
+            $('#lyricsContainer').scrollTop(36 * lyricsCount);
         }
 
     });
+
+    app.LyricsContainer = new LyricsContainerView();
+
 });
