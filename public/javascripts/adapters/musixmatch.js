@@ -84,7 +84,8 @@ var app = app || {};
           It is possible for the subtitle body to be undefined even though we applied a filter on the search call to filter for songs that only contain subtitles.
         */
         getTrackId : function(query, numResults, fn) {
-            var params = {
+            var deferred,
+                params = {
                 q              : query,
                 f_has_lyrics   : 1,
                 f_has_subtitle : 1,
@@ -93,7 +94,7 @@ var app = app || {};
                 format         : 'jsonp'
             };
 
-            $.ajax({
+            deferred = $.ajax({
                 type       : "POST",
                 dataType   : "jsonp",
                 url        : "http://api.musixmatch.com/ws/1.1/track.search",
@@ -114,6 +115,8 @@ var app = app || {};
                     fn();
                 }
             });
+
+            return deferred;
         }
     };
 

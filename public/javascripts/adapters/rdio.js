@@ -9,6 +9,7 @@ var app = app || {};
     app.RdioAdapter.prototype = {
 
         search: function(query, callback) {
+            var deferred = $.Deferred();
             R.request({
                 method: "search",
                 content: {
@@ -34,11 +35,16 @@ var app = app || {};
                 if (typeof callback === 'function') {
                     return callback.call(this, response);
                 }
+
+                return deferred.resolve(response);
               }
             },
             error: function(response) {
                 console.log("error");
+                deferred.resolve();
             }});
+
+            return deferred;
         },
 
         play: function(key) {

@@ -23,10 +23,15 @@ var app = app || {};
 
         var searchForSong = function() {
             var query = $("#searchInput").val();
-            app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
+            //app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
+            $.when(app.musixMatch.getTrackId(query, 50), app.rdio.search(query)).then(function(musix, rdio) {
+                console.log(musix);
+                console.log(rdio);
+                renderSuggestions();
+            });
         };
 
-        var renderSuggestions = function() {
+        var renderSuggestions = function(rdioData, musixmatchData) {
             app.searchResultsList.addMatches(window.rdioData, window.musixmatchData);
             $('#credits').addClass('hidden');
         };
