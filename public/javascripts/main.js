@@ -36,6 +36,14 @@ var app = app || {};
             $('#searchContainer').addClass('hidden');
         };
 
+        var onSongSelect = function(event) {
+            var $searchResult  = $(event.target);
+            window.playBackKey = $searchResult.data('key');
+            window.trackId     = $searchResult.data('track-id');
+            app.musixMatch.getLrcSubtitle(window.trackId, app.musixMatch.parseLrcData);
+            app.echonest.getAudioSummary(window.trackId);
+        };
+
 
         /***** DOM EVENTS *****/
 
@@ -47,13 +55,7 @@ var app = app || {};
             }
         });
 
-        $('body').on('click', '.list-search-result', function(event) {
-            var $searchResult  = $(event.target);
-            window.playBackKey = $searchResult.data('key');
-            window.trackId     = $searchResult.data('track-id');
-            app.musixMatch.getLrcSubtitle(window.trackId, app.musixMatch.parseLrcData);
-            app.echonest.getAudioSummary(window.trackId);
-        });
+        $('body').on('click', '.list-search-result', onSongSelect.bind(this, event));
 
         $('#rdioPlay').on('click', function() {
             app.rdio.togglePause();
