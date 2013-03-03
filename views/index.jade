@@ -7,7 +7,7 @@ block content
     #searchContainer
       input#searchInput(type="text", name="songTitle", placeholder="enter a song title, artist, etc.")
       button#goButton(type="submit", class="btn btn-primary") Go
-      #rdioResultsContainer.hidden
+      ul#searchResultsContainer.hidden
 
     #lyricsContainer.hidden
     #myPublisherDiv
@@ -29,3 +29,12 @@ block content
     script(id="lyricTemplate", type="text/x-mustache-template")
       .lyric-row(data-time='{{{timestamp}}}', data-i='{{{i}}}')
         | {{lyric}}
+
+    script(id="searchResultTemplate", type="text/x-mustache-template")
+      {{#songs}}
+      li.list-search-result(data-key='{{{key}}}', data-track-id='{{{track_id}}}')
+        | {{artist}} - {{track}}
+      {{/songs}}
+      {{^songs}}
+      p Sorry, no results found.
+      {{/songs}}
