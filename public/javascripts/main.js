@@ -60,7 +60,7 @@ var app = app || {};
             }
         });
 
-        $('body').on('click', '.list-search-result', onSongSelect.bind(this, event));
+        $('body').on('click', '.list-search-result', onSongSelect);
 
         $('#rdioPlay').on('click', function() {
             app.rdio.togglePause();
