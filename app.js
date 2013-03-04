@@ -49,7 +49,9 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// Routes
 app.get('/', routes.index);
+app.get('/join', routes.join);
 
 io.configure(function () {
 	io.set("transports", ["xhr-polling"]);
