@@ -10,7 +10,8 @@
     "jade": "*",
     "less-middleware": "*",
     "socket.io": "*",
-    "nodefly": "stable"
+    "nodefly": "stable",
+    "redis": "*"
   },
   "engines": {
     "node": "0.8.19",
