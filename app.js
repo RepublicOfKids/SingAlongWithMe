@@ -1,14 +1,26 @@
 /**
  * Module dependencies.
  */
+var express    = require('express'),
+    routes     = require('./routes'),
+    http       = require('http'),
+    path       = require('path'),
+    app        = express(),
+    server     = app.listen(process.env.PORT),
+    randomCode = require('./modules/randomCode.js').RandomCode,
+    io         = require('socket.io').listen(server),
+    util       = require('util');
 
-var express = require('express'),
-    routes  = require('./routes'),
-    http    = require('http'),
-    path    = require('path'),
-    app     = express(),
-    server  = app.listen(process.env.PORT),
-    io      = require('socket.io').listen(server);
+function hangups (req, res, next){
+    var reqd = domain.create();
+    reqd.add(req);
+    reqd.add(res);
+    reqd.on('error', function (error) {
+        if (error.code !== 'ECONNRESET') console.error(error, req.url);
+        reqd.dispose();
+    });
+    next();
+}
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -24,6 +36,7 @@ app.configure(function(){
     src: __dirname + '/public'
   }));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(hangups);
 });
 
 // Node Fly Analytics
@@ -48,12 +61,20 @@ io.sockets.on('connection', function (socket) {
 	socket.on('addUser', function(message) {
 		// Echo globally (all clients) that a person has connected
 		socket.broadcast.emit('broadcastData', message);
+    var roomId = randomCode.get();
+    while (typeof io.sockets.manager.rooms['/'+roomId] !== 'undefined') {
+      roomId = randomCode.get();
+    }
+    socket.join(roomId);
+    console.log("Checking room: " + util.inspect(io.sockets.manager.rooms, false, null));
 	});
 
 	// When the user disconnects
 	socket.on('disconnect', function(){
 		// Echo globally that this client has left
 		// socket.broadcast.emit('updateroom', 'SERVER', socket.username + ' has disconnected');
+    // TODO: Does socket IO clean up after us?
+    //socket.leave('room');
 	});
 });
 
