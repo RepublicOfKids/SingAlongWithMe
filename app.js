@@ -59,15 +59,14 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-	// When the client is added
-	socket.on('addUser', function(message) {
-		// Echo globally (all clients) that a person has connected
-		socket.broadcast.emit('broadcastData', message);
+	// When the host creates a room
+	socket.on('create room', function() {
     var roomId = randomCode.get();
     while (typeof io.sockets.manager.rooms['/'+roomId] !== 'undefined') {
       roomId = randomCode.get();
     }
     socket.join(roomId);
+    socket.emit('created roomId', roomId);
     console.log("Checking room: " + util.inspect(io.sockets.manager.rooms, false, null));
 	});
 

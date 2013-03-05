@@ -11,7 +11,7 @@
         get : function() {
             var self = this;
             return Array.apply(0, new Array(5)).map(function() {
-                return self.LOWERCASE_CHARS[Math.round(Math.random()*self.LOWERCASE_CHARS.length)+1];
+                return self.LOWERCASE_CHARS[Math.floor(Math.random()*self.LOWERCASE_CHARS.length)];
             }).join('');
         }
     };

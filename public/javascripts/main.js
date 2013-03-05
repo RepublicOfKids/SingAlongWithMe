@@ -1,13 +1,13 @@
 /*global Backbone _ $ ENTER_KEY Hogan R Glsl io*/
 var app = app || {};
+socket = io.connect(window.location.href);
 
 ;(function($) {
     "use strict";
 
-    var socket = io.connect(window.location.href);
     // Connecting to server
     socket.on('connect', function(){
-        socket.emit('addUser', window.prompt("Enter your name"));
+        // socket.emit('addUser', window.prompt("Enter your name"));
     });
 
     // Updating the room
@@ -19,7 +19,7 @@ var app = app || {};
         app.rdio = new app.RdioAdapter();
         app.musixMatch = new app.MusixMatchAdapter();
         app.echonest = new app.EchonestAdapter();
-
+        app.lobby = new app.LobbyView();
 
         var searchForSong = function() {
             var query = $("#searchInput").val();
@@ -45,14 +45,21 @@ var app = app || {};
             var $searchResult  = $(event.target);
             window.playBackKey = $searchResult.data('key');
             window.trackId     = $searchResult.data('track-id');
+            socket.emit('create room');
+            // BTW publish messages require underscores... Discuss convention
+            $.publish('create_room');
+        };
+
+        var fetchLyrics = function() {
             app.musixMatch.getLrcSubtitle(window.trackId, app.musixMatch.parseLrcData);
             app.echonest.getAudioSummary(window.trackId);
         };
 
-
         /***** DOM EVENTS *****/
 
         $("#goButton").on("click", searchForSong);
+
+        $.subscribe('fetch_lyrics', fetchLyrics);
 
         $("#searchInput").keypress(function(e) {
             if (e.which === 13) {
@@ -71,7 +78,9 @@ var app = app || {};
             $('#rdioPlayer').removeClass('hidden');
         });
 
+        // refactor
         $.subscribe('show_lyrics', hideTitleScreen);
+        $.subscribe('create_room', hideTitleScreen);
 
         $('#searchInput').focus();
     });
