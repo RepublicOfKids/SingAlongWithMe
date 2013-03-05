@@ -1,7 +1,12 @@
+/*global io */
+
 "use strict";
 /*
  * GET home page.
  */
+
+
+var util       = require('util');
 
 exports.index = function(req, res) {
     var userAgent = req.header('user-agent'),
@@ -19,5 +24,12 @@ exports.join = function(req, res) {
 };
 
 exports.join_room = function(req, res) {
-  console.log(req.body.roomId);
+  var roomId = req.body.roomId;
+  if (io.sockets.manager.rooms['/' + roomId]) {
+    res.redirect('/#' + roomId);
+  } else {
+    // Return json instead?
+    res.write('No room for that id');
+    res.end();
+  }
 };

@@ -2,15 +2,18 @@
  * Module dependencies.
  */
 var express    = require('express'),
-    routes     = require('./routes'),
     http       = require('http'),
     path       = require('path'),
     domain     = require('domain'),
+    util       = require('util'),
     app        = express(),
     server     = app.listen(process.env.PORT),
-    randomCode = require('./modules/randomCode.js').RandomCode,
-    io         = require('socket.io').listen(server),
-    util       = require('util');
+    routes     = require('./routes'),
+    randomCode = require('./modules/randomCode.js').RandomCode;
+
+// Global Objects
+io = require('socket.io').listen(server);
+
 
 function hangups(req, res, next) {
     var reqd = domain.create();
