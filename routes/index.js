@@ -5,7 +5,6 @@
  * GET home page.
  */
 
-
 var util       = require('util');
 
 exports.index = function(req, res) {

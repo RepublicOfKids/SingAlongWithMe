@@ -3,9 +3,9 @@ extends layout
 block content
   h1= title
 
-  #joinContainer
-    input#joinInput(type="text")
-    button#joinButton(type="submit", class="btn btn-primary") Join
+  form#joinContainer(action="join_room", method="post")
+    input#joinInput(name="roomId", type="text")
+    input#joinButton(type="submit", class="btn btn-primary") Join
 
   // TODO: FIX ME
   script(id="lyricTemplate", type="text/x-mustache-template")
