@@ -52,6 +52,7 @@ app.configure('development', function(){
 // Routes
 app.get('/', routes.index);
 app.get('/join', routes.join);
+app.get('/join_room', routes.join_room);
 
 io.configure(function () {
 	io.set("transports", ["xhr-polling"]);

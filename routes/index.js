@@ -17,3 +17,7 @@ exports.index = function(req, res) {
 exports.join = function(req, res) {
   res.render('join', {title: "Enter a Room"});
 };
+
+exports.join_room = function(req, res) {
+
+};

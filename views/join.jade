@@ -6,3 +6,17 @@ block content
   #joinContainer
     input#joinInput(type="text")
     button#joinButton(type="submit", class="btn btn-primary") Join
+
+  // TODO: FIX ME
+  script(id="lyricTemplate", type="text/x-mustache-template")
+    .lyric-row(data-time='{{{timestamp}}}', data-i='{{{i}}}')
+      | {{lyric}}
+
+  script(id="searchResultTemplate", type="text/x-mustache-template")
+    {{#songs}}
+    li.list-search-result(data-key='{{{key}}}', data-track-id='{{{track_id}}}')
+      | {{artist}} - {{track}}
+    {{/songs}}
+    {{^songs}}
+    p Sorry, no results found.
+    {{/songs}}
