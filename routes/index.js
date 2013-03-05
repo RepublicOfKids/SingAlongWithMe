@@ -19,5 +19,5 @@ exports.join = function(req, res) {
 };
 
 exports.join_room = function(req, res) {
-
+  console.log(req.body.roomId);
 };

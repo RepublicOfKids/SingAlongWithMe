@@ -5,13 +5,14 @@ var express    = require('express'),
     routes     = require('./routes'),
     http       = require('http'),
     path       = require('path'),
+    domain     = require('domain'),
     app        = express(),
     server     = app.listen(process.env.PORT),
     randomCode = require('./modules/randomCode.js').RandomCode,
     io         = require('socket.io').listen(server),
     util       = require('util');
 
-function hangups (req, res, next){
+function hangups(req, res, next) {
     var reqd = domain.create();
     reqd.add(req);
     reqd.add(res);
@@ -39,11 +40,6 @@ app.configure(function(){
   app.use(hangups);
 });
 
-// Node Fly Analytics
-require('nodefly').profile(
-  '75e62077-1aa6-4caf-90c2-fdf89d6cdb89',
-  ['Just Sing It']
-);
 
 app.configure('development', function(){
   app.use(express.errorHandler());
@@ -52,7 +48,7 @@ app.configure('development', function(){
 // Routes
 app.get('/', routes.index);
 app.get('/join', routes.join);
-app.get('/join_room', routes.join_room);
+app.post('/join_room', routes.join_room);
 
 io.configure(function () {
 	io.set("transports", ["xhr-polling"]);
