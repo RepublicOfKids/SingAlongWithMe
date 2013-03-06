@@ -1,3 +1,5 @@
+/*global io */
+
 /**
  * Module dependencies.
  */
@@ -60,7 +62,7 @@ io.configure(function () {
 
 io.sockets.on('connection', function (socket) {
 	// When the host creates a room
-	socket.on('create room', function() {
+	socket.on('create_room', function() {
     var roomId = randomCode.get();
     while (typeof io.sockets.manager.rooms['/'+roomId] !== 'undefined') {
       roomId = randomCode.get();
@@ -69,6 +71,14 @@ io.sockets.on('connection', function (socket) {
     socket.emit('created roomId', roomId);
     console.log("Checking room: " + util.inspect(io.sockets.manager.rooms, false, null));
 	});
+
+  socket.on('join_room', function(roomId) {
+    if (io.sockets.manager.rooms['/' + roomId]) {
+      socket.join(roomId);
+      console.log('Joining room: ' + roomId);
+      socket.emit('joined_room', roomId);
+    }
+  });
 
 	// When the user disconnects
 	socket.on('disconnect', function(){

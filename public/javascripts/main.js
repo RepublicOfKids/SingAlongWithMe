@@ -1,6 +1,5 @@
-/*global Backbone _ $ ENTER_KEY Hogan R Glsl io*/
+/*global Backbone _ $ ENTER_KEY Hogan R Glsl socket*/
 var app = app || {};
-socket = io.connect(window.location.href);
 
 ;(function($) {
     "use strict";
@@ -15,6 +14,16 @@ socket = io.connect(window.location.href);
         window.alert(data);
     });
 
+    // If the url has a room id then join the room.
+    if (_.contains(window.location.href, '#')) {
+        var roomId = window.location.href.split('#')[1].substr(0,5);
+        socket.emit('join_room', roomId);
+    }
+
+    socket.on('joined_room', function(roomId){
+        console.log('Joined Room :' + roomId);
+    });
+
     R.ready(function() {
         app.rdio = new app.RdioAdapter();
         app.musixMatch = new app.MusixMatchAdapter();
@@ -23,7 +32,6 @@ socket = io.connect(window.location.href);
 
         var searchForSong = function() {
             var query = $("#searchInput").val();
-            //app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
             $.when(app.musixMatch.getTrackId(query, 50), app.rdio.search(query)).then(function(musix, rdio) {
                 console.log(musix);
                 console.log(rdio);
@@ -45,7 +53,7 @@ socket = io.connect(window.location.href);
             var $searchResult  = $(event.target);
             window.playBackKey = $searchResult.data('key');
             window.trackId     = $searchResult.data('track-id');
-            socket.emit('create room');
+            socket.emit('create_room');
             // BTW publish messages require underscores... Discuss convention
             $.publish('create_room');
         };
