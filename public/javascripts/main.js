@@ -21,7 +21,7 @@ var app = app || {};
     }
 
     socket.on('joined_room', function(roomId){
-        console.log('Joined Room :' + roomId);
+        console.log('Joined Room: ' + roomId);
     });
 
     R.ready(function() {
