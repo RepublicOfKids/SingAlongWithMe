@@ -17,6 +17,7 @@ $(function () {
 
         initialize : function() {
             $.subscribe('show_lyrics', this.hide.bind(this));
+            $.subscribe('create room', this.hide.bind(this));
             this.listenTo(app.searchResultsList, 'add_results', this.render.bind(this));
         },
 

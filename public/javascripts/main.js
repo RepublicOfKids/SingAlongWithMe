@@ -1,13 +1,12 @@
-/*global Backbone _ $ ENTER_KEY Hogan R Glsl io*/
+/*global Backbone _ $ ENTER_KEY Hogan R Glsl socket*/
 var app = app || {};
 
 ;(function($) {
     "use strict";
 
-    var socket = io.connect(window.location.href);
     // Connecting to server
     socket.on('connect', function(){
-        socket.emit('addUser', window.prompt("Enter your name"));
+        // socket.emit('addUser', window.prompt("Enter your name"));
     });
 
     // Updating the room
@@ -15,15 +14,24 @@ var app = app || {};
         window.alert(data);
     });
 
+    // If the url has a room id then join the room.
+    if (_.contains(window.location.href, '#')) {
+        var roomId = window.location.href.split('#')[1].substr(0,5);
+        socket.emit('join_room', roomId);
+    }
+
+    socket.on('joined_room', function(roomId){
+        console.log('Joined Room: ' + roomId);
+    });
+
     R.ready(function() {
         app.rdio = new app.RdioAdapter();
         app.musixMatch = new app.MusixMatchAdapter();
         app.echonest = new app.EchonestAdapter();
-
+        app.lobby = new app.LobbyView();
 
         var searchForSong = function() {
             var query = $("#searchInput").val();
-            //app.musixMatch.getTrackId(query, 50, app.rdio.search.bind(this, query, renderSuggestions));
             $.when(app.musixMatch.getTrackId(query, 50), app.rdio.search(query)).then(function(musix, rdio) {
                 console.log(musix);
                 console.log(rdio);
@@ -45,14 +53,22 @@ var app = app || {};
             var $searchResult  = $(event.target);
             window.playBackKey = $searchResult.data('key');
             window.trackId     = $searchResult.data('track-id');
+            app.PlayList.add(new app.Song(window.playBackKey, window.trackId));
+            socket.emit('create_room');
+            // BTW publish messages require underscores... Discuss convention
+            $.publish('create_room');
+        };
+
+        var fetchLyrics = function() {
             app.musixMatch.getLrcSubtitle(window.trackId, app.musixMatch.parseLrcData);
             app.echonest.getAudioSummary(window.trackId);
         };
 
-
         /***** DOM EVENTS *****/
 
         $("#goButton").on("click", searchForSong);
+
+        $.subscribe('fetch_lyrics', fetchLyrics);
 
         $("#searchInput").keypress(function(e) {
             if (e.which === 13) {
@@ -71,7 +87,9 @@ var app = app || {};
             $('#rdioPlayer').removeClass('hidden');
         });
 
+        // refactor
         $.subscribe('show_lyrics', hideTitleScreen);
+        $.subscribe('create_room', hideTitleScreen);
 
         $('#searchInput').focus();
     });
