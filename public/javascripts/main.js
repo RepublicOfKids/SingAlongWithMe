@@ -53,6 +53,7 @@ var app = app || {};
             var $searchResult  = $(event.target);
             window.playBackKey = $searchResult.data('key');
             window.trackId     = $searchResult.data('track-id');
+            app.PlayList.add(new app.Song(window.playBackKey, window.trackId));
             socket.emit('create_room');
             // BTW publish messages require underscores... Discuss convention
             $.publish('create_room');
