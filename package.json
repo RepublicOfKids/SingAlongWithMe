@@ -10,7 +10,8 @@
     "jade": "*",
     "less-middleware": "*",
     "socket.io": "*",
-    "redis": "*"
+    "redis": "*",
+    "webpack": "2.2.1"
   },
   "engines": {
     "node": "0.8.19",
